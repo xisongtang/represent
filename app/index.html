@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" ng-app="myApp"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Represent</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<!--  <link rel="stylesheet" href="bower_components">-->
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/glyphicons.css">
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" href="app.css">
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="js/controllers.js"></script>
+  <script src="js/directives.js"></script>
+</head>
+<body>
+  <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+  <![endif]-->
+  <div id="tool-panel" ng-controller="toolController">
+    <div class="logo" >
+      <h1>REP</h1>
+    </div>
+    <div id="font-tool" class="tool-subpanel">
+      <div class="tool-row">
+        <div class="btn-group" role="group" aria-label="...">
+          <div rep-dropdown="fontFamily"></div>
+          <div rep-dropdown="fontSize"></div>
+          <div class="btn" title="加大字号"><span class="glyphicons glyphicons-text-bigger" aria-hidden="true"></span></div>
+          <div class="btn" title="减小字号"><span class="glyphicons glyphicons-text-smaller" aria-hidden="true"></span></div>
+          <div class="btn" title="消除样式"><span class="glyphicons glyphicons-erase" aria-hidden="true"></span></div>
+          
+        </div><!-- btn-group -->
+      </div><!-- .tool-row -->
+      <div class="tool-row">
+        <div class="btn-group" role="group">
+          <div class="btn" title="粗体"><span class="glyphicons glyphicons-bold" aria-hidden="true" ng-click="changeFontStyle(bold);"></span></div>
+          <div class="btn" title="斜体"><span class="glyphicons glyphicons-italic" aria-hidden="true" ng-click="changeFontStyle(italic);"></span></div>
+          <div class="btn" title="下划线"><span class="glyphicons glyphicons-text-underline" aria-hidden="true"ng-click="changeFontStyle(underline);"></span></div>
+          <div class="btn" title="删除线"><span class="glyphicons glyphicons-text-strike" aria-hidden="true" ng-click="changeFontStyle(linethrough);"></span></div>
+          <div class="btn" title="上标"><span class="glyphicons glyphicons-superscript" aria-hidden="true" ng-click="changeFontStyle(superscript);"></span></div>
+          <div class="btn" title="下标"><span class="glyphicons glyphicons-subscript" aria-hidden="true" ng-click="changeFontStyle(subscript);"></span></div>
+          <label for="color-picker" class="btn btn-shadow" title="字体颜色"><span class="glyphicons glyphicons-text-color" aria-hidden="true" ng-click="changeFontStyle(color);"></span></label>
+          <input type="color" id="color-picker" ng-model="color.current"></input>
+          <label for="background-color-picker" class="btn btn-shadow" title="背景颜色"><span class="glyphicons glyphicons-text-background" aria-hidden="true" ng-click="changeFontStyle(backgroundColor)"></span></label>
+          <input type="color" id="background-color-picker" ng-model="backgroundColor.current"></input>
+        </div><!-- btn-group -->
+      </div><!-- .tool-row -->
+      <div class="tool-label">字体</div>
+    </div><!-- #font-tool -->
+    <div id="sec-tool" class="tool-subpanel">
+      <div class="tool-row">
+        <div class="btn-group" role="group" aria-label="...">
+          <div rep-dropdown="listType"></div>
+          <div rep-dropdown="lineHeight"></div>
+          <div rep-dropdown="letterSpace"></div>
+        </div><!-- btn-group -->
+      </div><!-- .tool-row -->
+      <div class="tool-row">
+        <div class="btn-group" role="group">
+          <div class="btn" title="左对齐"><span class="glyphicons glyphicons-align-left" ng-click="changeParaStyle(textAlignLeft);"></span></div>
+          <div class="btn" title="剧中对齐"><span class="glyphicons glyphicons-align-center" ng-click="changeParaStyle(textAlignCenter);"></span></div>
+          <div class="btn" title="右对齐"><span class="glyphicons glyphicons-align-right" ng-click="changeParaStyle(textAlignRight);"></span></div>
+          <div class="btn" title="两端对齐"><span class="glyphicons glyphicons-justify" ng-click="changeParaStyle(textAlignJustify);"></span></div>
+          <div class="btn" title="首航缩进"><span class="glyphicons glyphicons-left-indent" ng-click="changeParaStyle(textIndent);"></span></div>
+          <div class="btn" title="代码高亮"><span class="glyphicons glyphicons-embed-close"></span></div>
+          <div class="btn" title="引用"><span class="glyphicons glyphicons-quote"></span></div>
+        </div><!-- btn-group -->
+      </div><!-- .tool-row -->
+      <div class="tool-label">段落</div>
+    </div><!-- .sec-tool -->
+    <div id="anim-tool" class="tool-subpanel">
+      <div class="tool-row">
+        <label class="tool-row-head">当前帧:</label>
+        <div class="btn-group" role="group">
+          <div rep-dropdown="singleAnimType"></div>
+          <div rep-dropdown="singleAnimTime"></div>
+        </div><!-- btn-group -->
+      </div><!-- .tool-row -->
+      <div class="tool-row">
+        <label class="tool-row-head">全部帧:</label>
+        <div class="btn-group" role="group">
+          <div rep-dropdown="multiAnimType"></div>
+          <div rep-dropdown="multiAnimTime"></div>
+        </div><!-- btn-group -->
+      </div><!-- .tool-row -->
+      <div class="tool-label">动画</div>
+    </div><!-- .ani-tool -->
+  </div>
+	<div id="insert-col">
+    <div class="insert-col-header"><h2>插入</h2></div>
+    <ul>
+      <li><span class="glyphicons glyphicons-list" aria-hidden="true"></span><span class="insert-col-text">文本框</span></li>
+      <li><span class="glyphicons glyphicons-picture" aria-hidden="true"></span><span class="insert-col-text">图片</span></li>
+      <li><span class="glyphicons glyphicons-film" aria-hidden="true"></span><span class="insert-col-text">视频</span></li>
+      <li><span class="glyphicons glyphicons-music" aria-hidden="true"></span><span class="insert-col-text">音频</span></li>
+      <li><span class="glyphicons glyphicons-table" aria-hidden="true"></span><span class="insert-col-text">表格</span></li>
+    </ul>
+  </div>
+  <div class="panel-wrapper">
+    <div class="new-frame-button" id="left-frame-button">
+     <span class="glyphicons glyphicons-circle-plus"></span>
+    </div>
+    <div class="new-frame-button" id="right-frame-button">
+     <span class="glyphicons glyphicons-circle-plus"></span>
+    </div>
+    <div class="new-frame-button" id="top-frame-button">
+     <span class="glyphicons glyphicons-circle-plus"></span>
+    </div>
+    <div class="new-frame-button" id="bottom-frame-button">
+     <span class="glyphicons glyphicons-circle-plus"></span>
+    </div>
+    <div rep-editable id="panel" contenteditable="true" class="editablediv">
+      <p>
+        <span>&#8203;
+        </span>
+      </p>
+    </div>
+  </div><!-- .panel-wrapper -->
+  <!-- In production use:
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
+  -->
+  <script src="bower_components/jquery/dist/jquery.js"></script>
+  <script src="bower_components/jquery/dist/jquery-ui.js"></script>
+<!--  <script src="js/editablediv.js"></script>-->
+  <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+  <script src="bower_components/angular-route/angular-route.js"></script>
+  <script src="js/app.js"></script>
+  <script src="components/version/version.js"></script>
+  <script src="components/version/version-directive.js"></script>
+  <script src="components/version/interpolate-filter.js"></script>
+</body>
+</html>

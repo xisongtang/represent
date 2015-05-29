@@ -1,0 +1,228 @@
+/* app css stylesheet */
+html, body, div, span, applet, object, iframe,h1, h2, h3, h4, h5, h6, p, blockquote, pre,a, abbr, acronym, address, big, cite, code,del, dfn, em, font, img, ins, kbd, q, s, samp,small, strike, strong, sub, sup, tt, var,b, u, i, center,dl, dt, dd, ol, ul, li,fieldset, form, label, legend,table,input caption, tbody, tfoot, thead, tr, th, td {margin: 0;padding: 0;border: 0;outline: 0;font-size: 100%;vertical-align: baseline;background: transparent;}body {line-height: 1;}ol, ul {list-style: none;}blockquote, q {quotes: none;}blockquote:before, blockquote:after,q:before, q:after {content: '';content: none;}/* remember to define focus styles! */:focus {outline: 0;}/* remember to highlight inserts somehow! */ins {text-decoration: none;}del {text-decoration: line-through;}/* tables still need 'cellspacing="0"' in the markup */table {border-collapse: collapse;border-spacing: 0;}
+
+body{
+	height: 100%;
+	overflow: hidden;
+	font-family:'Microsoft YaHei',  SimHei, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+#insert-col{
+	position: absolute;
+	left: 0;
+	top: 100px;
+	width: 200px;
+	bottom: 0px;
+	border-right: 1px solid #bebebe;
+	background-color: #e6e6e6;
+}
+#insert-col ul{
+	padding-left: 20px;
+	padding-top: 20px;
+}
+#insert-col ul li{
+	cursor: pointer;
+	margin-bottom: 10px;
+	background: white;
+	width: 150px;
+	height: 50px;
+	font-size: 18px;
+	vertical-align: middle;
+	box-shadow: 0px 2px 6px rgba(0,0,0,0.1),0px 4px 15px -5px transparent;
+}
+#insert-col ul li:hover{
+	background: #f5f5f5;
+}
+#insert-col ul li span.glyphicons{
+	vertical-align: middle;
+	height: 50px;
+	top:0px;
+	bottom: 0px;
+	padding: 14px 10px;
+	border-right: 1px solid #e6e6e6;
+}
+
+#insert-col ul li span.insert-col-text{
+	padding-left: 10px;
+}
+
+#insert-col div.insert-col-header{
+	width: 100%;
+	border-bottom: 1px solid #bebebe;
+	height: 50px;
+}
+
+#insert-col div.insert-col-header h2{
+	padding: 10px 0 0 20px;
+	font-size: 20px;
+	line-height: 1.42;
+}
+
+#tool-panel{
+	position: absolute;
+	top: 0px;
+	left: 0px;right:0px;
+	height: 100px;
+	background: #404040;
+}
+
+#tool-panel div.logo{
+	float: left;
+	background: #6f5499;
+	width: 200px;
+	height: 100%;
+	border: 1px solid #404040;
+}
+
+#tool-panel div.logo h1{
+	font-size: 80px;
+	line-height: 1.2;
+	font-weight: bold;
+	color: white;
+	text-align: center;
+	font-family: 'Helvetica Neue';
+}
+/*
+#font-tool{
+	width: 380px;
+}*/
+
+.tool-subpanel{
+	float: left;
+	height: 100%;
+	border-right: 1px solid #bebebe;
+}
+
+.tool-row{
+	color: white;
+	padding-top: 5px;
+	height: 35px;
+}
+.tool-row label.tool-row-head{
+	padding-left:5px;
+	padding-right:5px;
+	font-size: 15px;
+	font-weight: normal;
+}
+
+.btn{
+	line-height: 1;
+}
+
+.tool-row .btn-group .btn{
+	height: 30px;
+	border-radius: 0px;
+	margin-left: 2px;
+	background-color: #404040;
+	color: white;
+}
+.tool-row .dropdown-menu{
+  background-color: #404040;
+  color: white;
+}
+.tool-row .dropdown-menu li, .tool-row .dropdown-menu li a{
+	color: inherit;
+}
+
+.tool-row .dropdown-menu .active a{
+	background-color: #606060;
+}
+.tool-row .btn:hover, .tool-row .dropdown-menu li:hover, .tool-row .dropdown-menu li a:hover{
+	background-color: #808080;
+}
+
+.tool-row .btn span.glyphicons{
+	font-size: 18px;
+}
+.tool-row .dropdown-toggle span.glyphicons{
+	font-size: 16px;
+	top: -1px;
+}
+
+.tool-label{
+	padding-top: 8px;
+	height: 30px;
+	font-size: 15px;
+	color: #ccc;
+	text-align: center;
+}
+
+.tool-row .btn-shadow span{
+	box-shadow: 1px 1px 6px #ccc;
+}
+
+#color-picker, #background-color-picker{
+	visibility: hidden;
+	height: 0px;
+	width: 0px;
+	padding: 0;
+	border: 0;
+	overflow: hidden;
+}
+
+#anim-tool{
+	padding-right: 5px;
+}
+
+.panel-wrapper{
+	z-index: -1000;
+	position: absolute;
+	padding: 50px;
+	background: #eee;
+	overflow: auto;
+	left: 200px;
+	top: 100px;
+	right: 0px;
+	bottom: 0px;
+}
+
+#panel{
+	margin: 0 auto;
+	height: 600px;
+	width: 960px;
+	overflow: hidden;
+	word-break: break-all;
+	box-shadow: 1px 1px 10px #aaa;
+	background-color: #fff;
+}
+
+.new-frame-button{
+	position: fixed;
+	height: 40px;
+	width: 40px;
+}
+.new-frame-button span.glyphicons{
+	cursor: pointer;
+	font-size: 40px;
+	color: #6f5499;
+	filter:alpha(opacity=80);
+	-moz-opacity:0.8;
+	opacity:0.8;
+}
+
+#left-frame-button{
+	left: 205px;
+	top: 50%;
+}
+
+#right-frame-button{
+	right: 5px;
+	top: 50%;
+}
+
+#top-frame-button{
+	left: 55%;
+	top: 105px;
+}
+
+#bottom-frame-button{
+	left: 55%;
+	bottom: 5px;
+}
+
+.editablediv{
+	font-family: "Helvetica Neue";
+	font-size: 18px;
+	text-align: left;
+	line-height: 1.5;
+	overflow-x: hidden;
+}
