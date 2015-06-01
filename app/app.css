@@ -150,6 +150,14 @@ body{
 	box-shadow: 1px 1px 6px #ccc;
 }
 
+.btn.active{
+	box-shadow: inset 0 3px 5px rgba(0, 0, 0, .5);
+}
+
+.glyphicons-text-color{
+	background-color: #eee;
+	border-radius: 2px;
+}
 #color-picker, #background-color-picker{
 	visibility: hidden;
 	height: 0px;
