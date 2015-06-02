@@ -15,6 +15,11 @@ body{
 	border-right: 1px solid #bebebe;
 	background-color: #e6e6e6;
 }
+
+#insert-col li.active{
+	background: #eee;
+}
+
 #insert-col ul{
 	padding-left: 20px;
 	padding-top: 20px;
@@ -183,7 +188,9 @@ body{
 	bottom: 0px;
 }
 
-#panel{
+panel{
+	display: block;
+	position: relative;
 	margin: 0 auto;
 	height: 600px;
 	width: 960px;
@@ -227,10 +234,19 @@ body{
 	bottom: 5px;
 }
 
-.editablediv{
+.editablediv{ 
+	position:absolute;
+	border: 1px solid #eee;
 	font-family: "Helvetica Neue";
 	font-size: 18px;
 	text-align: left;
 	line-height: 1.5;
-	overflow-x: hidden;
+	overflow:hidden;
+}
+
+.editablediv.chosen {
+	z-index: 1000;
+	background: white;
+	opacity: 0.8; 
+	border: 1px dotted black;
 }

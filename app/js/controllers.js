@@ -1,3 +1,4 @@
+/// <reference path="../../typings/angularjs/angular.d.ts"/>
 'use strick';
 
 var controllers = angular.module('controllers', []);
@@ -147,4 +148,17 @@ controllers.controller('toolController', ['$scope', '$rootScope', function($scop
 	$scope.preDefault = function($event){
 		$event.stopPropagation();
 	};
+}]);
+
+controllers.controller('insertController', ['$scope', '$rootScope', function($scope, $rootScope){
+	$scope.inserting = null;
+	$scope.textButtonClick = function(){
+		$scope.inserting = 'text';
+		$rootScope.$broadcast('insertText');
+	};
+	$scope.$on("insertTextEnd", function(){
+		$scope.$apply(function(){
+			$scope.inserting = null;
+		});
+	});
 }]);

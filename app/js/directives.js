@@ -62,6 +62,7 @@ directives.directive('repEditable', ['$rootScope', function($rootScope){
 		end = res.index(endnode);
 		return res.slice(beg, end + 1);	
 	};
+	
 	var getParasBetween = function(){
 		var beg, end, res;
 		res = $(begnode).parent().parent().find("p");
@@ -71,17 +72,13 @@ directives.directive('repEditable', ['$rootScope', function($rootScope){
 	};
 	var thisnode = null;
 	
-	$('.panel-wrapper').bind('mousedown', function(e){
-		e = e.originalEvent;
-		for (var i = e.path.length - 1; i >= 0; --i){
-			if (e.path[i].className === "editablediv"){
-				thisnode = e.path[i];
-				return;			
-			} 
-		}
+	$('.panel-wrapper, panel').bind('mousedown', function(e){
 		thisnode = null;
 		begnode = endnode = null;
-		$rootScope.$digest();
+		$rootScope.$apply(function(){
+			$rootScope.begnode = begnode;
+			$rootScope.thisnode = thisnode;
+		});
 	});
 	
 	$(document).bind('keyup mouseup', function(e){
@@ -137,17 +134,41 @@ directives.directive('repEditable', ['$rootScope', function($rootScope){
 				begoffset = offset1;
 				endoffset = offset0;
 			}
-			$rootScope.begnode = begnode;
-			$rootScope.$digest();
+			$rootScope.$apply(function(){
+				$rootScope.begnode = begnode;
+			});
 		}, 200);
 	});
 	
 	$rootScope.$watch('begnode', function(newValue, oldValue){
 		$rootScope.$broadcast("selectionStyleChanged", begnode, begnode?begnode.parentNode:null);
 	});
+	$rootScope.$watch('thisnode', function(newValue, oldValue){
+		console.log(newValue);
+		$rootScope.$broadcast("_thisnodeChanged", newValue);
+	});
 	return {
 		restrict: 'A',
+		scope:{
+			
+		},
 		link: function(scope, element, attrs){
+			thisnode = element[0];
+			$rootScope.$apply(function(){
+				$rootScope.thisnode = element[0];
+			});
+			scope.current = true;
+			scope.$on('_thisnodeChanged', function(e, thisnode){
+				scope.current = element[0] === thisnode;
+			});
+			$(element[0]).bind('mousedown', function(e){
+				var ee = e.originalEvent;
+				thisnode = element[0];
+				$rootScope.$apply(function(){
+					$rootScope.thisnode = element[0];
+				});
+				ee.stopPropagation();
+			});
 			scope.$on("fontStyleChanged", function(e, key, value){
 				if (element[0] !== thisnode)
 					return;
@@ -184,11 +205,11 @@ directives.directive('repEditable', ['$rootScope', function($rootScope){
 			});
 		},
 		replace:true,
-		template:'<div id="panel" contenteditable="true" class="editablediv"><p><scan>&#8203;</scan></p></div>'
+		template:'<div contenteditable="true" class="editablediv" ng-class="{chosen:current}"><p><scan>&#8203;</scan></p></div>'
 	};
 }]);
 
-directives.directive('repButton', ['$rootScope', function($rootScope){
+directives.directive('repNodefault', ['$rootScope', function($rootScope){
 	return {
 		restrict: 'A',
 		link: function(scope, elem, attrs){
@@ -197,4 +218,68 @@ directives.directive('repButton', ['$rootScope', function($rootScope){
 			});
 		}
 	};
+}]);
+
+directives.directive('panel', ['$templateCache', '$compile', function($templateCache, $compile){
+	return {
+		restrict: 'E',
+		link:function(scope, elem, attrs){
+			var begoffsetX = null, begoffsetY = null, thisnode = null;// indexZ = 0;
+			scope.insertingText = false;
+			scope.$on("insertText", function(){
+				scope.insertingText = true;
+			});
+			elem = $(elem[0]);
+			elem.bind('mousedown', function(e){
+				if (!scope.insertingText)
+					return false;
+				begoffsetX = e.offsetX;
+				begoffsetY = e.offsetY;
+			});
+			
+			elem.bind('mousemove', function(e){
+				if (begoffsetX === null || begoffsetY === null)
+					return;
+				if (Math.abs(e.offsetX - begoffsetX) < 5 || Math.abs(e.offsetY - begoffsetY) < 5 ){
+					if (thisnode !== null){
+						thisnode = null;
+						elem[0].childNodes[elem[0].childNodes.length - 1].remove();
+					}
+					return;
+				}
+				var startX, startY, width, height, endX, endY;
+				if (e.target === elem[0]){
+					endX = e.offsetX;
+					endY = e.offsetY;
+				}
+				else {
+					endX = e.target.offsetLeft + e.offsetX;
+					endY = e.target.offsetTop + e.offsetY;
+				}
+				startX = endX < begoffsetX ? endX : begoffsetX;
+				startY = endY < begoffsetY ? endY : begoffsetY;
+				width = Math.abs(endX - begoffsetX);
+				height = Math.abs(endY - begoffsetY);
+				if (!thisnode){
+					thisnode = $($compile('<div rep-editable></div>')(scope));
+					scope.$apply();
+					elem.append(thisnode);
+				}
+				thisnode.css("top", startY.toString() + "px");
+				thisnode.css("left", startX.toString() + "px");
+				thisnode.css("height", height.toString() + "px");
+				thisnode.css("width", width.toString() + "px");
+			});
+			
+			elem.bind('mouseup',function(e){
+				if (begoffsetX === null)
+					return;
+				scope.insertingText = false;
+				thisnode = null;
+				begoffsetX = null;
+				begoffsetY = null;
+				scope.$broadcast("insertTextEnd");
+			});
+		}
+	}
 }]);
