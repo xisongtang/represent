@@ -17,11 +17,11 @@
   <script src="js/controllers.js"></script>
   <script src="js/directives.js"></script>
 </head>
-<body>
+<body rep-nodefault>
   <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
-  <div id="tool-panel" ng-controller="toolController" rep-nodefault>
+  <div id="tool-panel" ng-controller="toolController">
     <div class="logo" >
       <h1>REP</h1>
     </div>
@@ -30,23 +30,23 @@
         <div class="btn-group" role="group" aria-label="...">
           <div rep-dropdown="fontFamily"></div>
           <div rep-dropdown="fontSize"></div>
-          <div class="btn" title="加大字号" ng-click="changeFontSize(true)" rep-nodefault><span class="glyphicons glyphicons-text-bigger" aria-hidden="true"></span></div>
-          <div class="btn" title="减小字号" ng-click="changeFontSize(false)" rep-nodefault><span class="glyphicons glyphicons-text-smaller" aria-hidden="true"></span></div>
-          <div class="btn" title="消除样式" ng-click="clearStyle()" rep-nodefault><span class="glyphicons glyphicons-erase" aria-hidden="true"></span></div>
+          <div class="btn" title="加大字号" ng-click="changeFontSize(true)" ><span class="glyphicons glyphicons-text-bigger" aria-hidden="true"></span></div>
+          <div class="btn" title="减小字号" ng-click="changeFontSize(false)" ><span class="glyphicons glyphicons-text-smaller" aria-hidden="true"></span></div>
+          <div class="btn" title="消除样式" ng-click="clearStyle()" ><span class="glyphicons glyphicons-erase" aria-hidden="true"></span></div>
           
         </div><!-- btn-group -->
       </div><!-- .tool-row -->
       <div class="tool-row">
         <div class="btn-group" role="group">
-          <div class="btn" ng-class="{active:bold.current}"title="粗体" ng-click="changeFontStyle(bold);" rep-nodefault><span class="glyphicons glyphicons-bold" aria-hidden="true"></span></div>
-          <div class="btn" ng-class="{active:italic.current}"title="斜体" ng-click="changeFontStyle(italic);" rep-nodefault><span class="glyphicons glyphicons-italic" aria-hidden="true"></span></div>
-          <div class="btn" ng-class="{active:underline.current}"title="下划线" ng-click="changeFontStyle(underline);" rep-nodefault><span class="glyphicons glyphicons-text-underline" aria-hidden="true"></span></div>
-          <div class="btn" ng-class="{active:linethrough.current}"title="删除线" ng-click="changeFontStyle(linethrough);" rep-nodefault><span class="glyphicons glyphicons-text-strike" aria-hidden="true"></span></div>
-          <div class="btn" ng-class="{active:superscript.current}"title="上标" ng-click="changeFontStyle(superscript);" rep-nodefault><span class="glyphicons glyphicons-superscript" aria-hidden="true"></span></div>
-          <div class="btn" ng-class="{active:subscript.current}"title="下标" ng-click="changeFontStyle(subscript);" rep-nodefault><span class="glyphicons glyphicons-subscript" aria-hidden="true"></span></div>
-          <label for="color-picker" class="btn" title="字体颜色" ng-style="{'color':color.current}" rep-nodefault><span class="glyphicons glyphicons-text-color" aria-hidden="true"></span></label>
+          <div class="btn" ng-class="{active:bold.current}"title="粗体" ng-click="changeFontStyle(bold);" ><span class="glyphicons glyphicons-bold" aria-hidden="true"></span></div>
+          <div class="btn" ng-class="{active:italic.current}"title="斜体" ng-click="changeFontStyle(italic);" ><span class="glyphicons glyphicons-italic" aria-hidden="true"></span></div>
+          <div class="btn" ng-class="{active:underline.current}"title="下划线" ng-click="changeFontStyle(underline);" ><span class="glyphicons glyphicons-text-underline" aria-hidden="true"></span></div>
+          <div class="btn" ng-class="{active:linethrough.current}"title="删除线" ng-click="changeFontStyle(linethrough);" ><span class="glyphicons glyphicons-text-strike" aria-hidden="true"></span></div>
+          <div class="btn" ng-class="{active:superscript.current}"title="上标" ng-click="changeFontStyle(superscript);" ><span class="glyphicons glyphicons-superscript" aria-hidden="true"></span></div>
+          <div class="btn" ng-class="{active:subscript.current}"title="下标" ng-click="changeFontStyle(subscript);" ><span class="glyphicons glyphicons-subscript" aria-hidden="true"></span></div>
+          <label for="color-picker" class="btn" title="字体颜色" ng-style="{'color':color.current}" ><span class="glyphicons glyphicons-text-color" aria-hidden="true"></span></label>
           <input type="color" id="color-picker" ng-model="color.target" ng-change="changeFontStyle(color)"></input>
-          <label for="background-color-picker" class="btn" title="背景颜色" ng-style="{'color':backgroundColor.current}" rep-nodefault><span class="glyphicons glyphicons-text-background" aria-hidden="true"></span></label>
+          <label for="background-color-picker" class="btn" title="背景颜色" ng-style="{'color':backgroundColor.current}" ><span class="glyphicons glyphicons-text-background" aria-hidden="true"></span></label>
           <input type="color" id="background-color-picker" ng-model="backgroundColor.target" ng-change="changeFontStyle(backgroundColor)"></input>
         </div><!-- btn-group -->
       </div><!-- .tool-row -->
@@ -61,11 +61,11 @@
       </div><!-- .tool-row -->
       <div class="tool-row">
         <div class="btn-group" role="group">
-          <div class="btn" ng-class="{active:textAlignLeft.current}"title="左对齐" ng-click="changeParaStyle(textAlignLeft);" rep-nodefault><span class="glyphicons glyphicons-align-left"></span></div>
-          <div class="btn" ng-class="{active:textAlignCenter.current}"title="剧中对齐" ng-click="changeParaStyle(textAlignCenter);" rep-nodefault><span class="glyphicons glyphicons-align-center"></span></div>
-          <div class="btn" ng-class="{active:textAlignRight.current}"title="右对齐" ng-click="changeParaStyle(textAlignRight);" rep-nodefault><span class="glyphicons glyphicons-align-right"></span></div>
-          <div class="btn" ng-class="{active:textAlignJustify.current}"title="两端对齐" ng-click="changeParaStyle(textAlignJustify);" rep-nodefault><span class="glyphicons glyphicons-justify" ></span></div>
-          <div class="btn" ng-class="{active:textIndent.current}"title="首航缩进" ng-click="changeParaStyle(textIndent);" rep-nodefault><span class="glyphicons glyphicons-left-indent" ></span></div>
+          <div class="btn" ng-class="{active:textAlignLeft.current}"title="左对齐" ng-click="changeParaStyle(textAlignLeft);" ><span class="glyphicons glyphicons-align-left"></span></div>
+          <div class="btn" ng-class="{active:textAlignCenter.current}"title="剧中对齐" ng-click="changeParaStyle(textAlignCenter);" ><span class="glyphicons glyphicons-align-center"></span></div>
+          <div class="btn" ng-class="{active:textAlignRight.current}"title="右对齐" ng-click="changeParaStyle(textAlignRight);" ><span class="glyphicons glyphicons-align-right"></span></div>
+          <div class="btn" ng-class="{active:textAlignJustify.current}"title="两端对齐" ng-click="changeParaStyle(textAlignJustify);" ><span class="glyphicons glyphicons-justify" ></span></div>
+          <div class="btn" ng-class="{active:textIndent.current}"title="首航缩进" ng-click="changeParaStyle(textIndent);" ><span class="glyphicons glyphicons-left-indent" ></span></div>
           <div class="btn" title="代码高亮"><span class="glyphicons glyphicons-embed-close"></span></div>
           <div class="btn" title="引用"><span class="glyphicons glyphicons-quote"></span></div>
         </div><!-- btn-group -->
@@ -90,7 +90,7 @@
       <div class="tool-label">动画</div>
     </div><!-- .ani-tool -->
   </div>
-	<div id="insert-col" ng-controller="insertController" rep-nodefault>
+	<div id="insert-col" ng-controller="insertController">
     <div class="insert-col-header"><h2>插入</h2></div>
     <ul>
       <li ng-class="{active:(inserting === 'text')}" ng-click="textButtonClick();" ><span class="glyphicons glyphicons-list" aria-hidden="true"></span><span class="insert-col-text">文本框</span></li>
