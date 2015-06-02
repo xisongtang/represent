@@ -65,8 +65,10 @@ body{
 #tool-panel{
 	position: absolute;
 	top: 0px;
-	left: 0px;right:0px;
+	left: 0px;
+	right:0px;
 	height: 100px;
+	overflow: hidden;
 	background: #404040;
 }
 
@@ -251,6 +253,11 @@ panel{
 }
 
 panel .select-helper{
+	background: rgba(0,0,0,0.1);
 	position: absolute;
-	border: 1px dotted black;
+	border: 1px solid gray;
+}
+
+.editablediv.selected{
+	border: 1px solid #666;
 }

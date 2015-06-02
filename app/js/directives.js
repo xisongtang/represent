@@ -1,3 +1,4 @@
+/// <reference path="../../typings/jquery/jquery.d.ts"/>
 'use strict';
 var directives = angular.module('directives', []);
 
@@ -14,7 +15,7 @@ directives.directive('repDropdown', ['$rootScope', function($rootScope){
 				} else {
 					$rootScope.$broadcast("paraStyleChanged", $scope.attr.css, ff);
 				}
-			}
+			};
 		},
 		link: function(scope, element, attrs){
 		},
@@ -86,8 +87,14 @@ directives.directive('repEditable', ['$rootScope', function($rootScope){
 			return ;
 		var editdiv = thisnode, sel = window.getSelection(), hashmul = 1000;//the value to multiply for hash
 		if ( $(thisnode).find("span").length === 0 ){
+			var range, sp;
+			try{
+				range = sel.getRangeAt(0);
+			}catch(e){
+				return;
+			}
+			sp = $("<p><span>&#8203;</span></p>")[0];
 			$(thisnode).empty();
-			var range = sel.getRangeAt(0), sp = $("<p><span>&#8203;</span></p>")[0];
 			range.insertNode(sp);
 			range.setStart(sp.childNodes[0], 0);
 			range.setEnd(sp.childNodes[0], 0);
@@ -144,9 +151,9 @@ directives.directive('repEditable', ['$rootScope', function($rootScope){
 		$rootScope.$broadcast("selectionStyleChanged", begnode, begnode?begnode.parentNode:null);
 	});
 	$rootScope.$watch('thisnode', function(newValue, oldValue){
-		console.log(newValue);
 		$rootScope.$broadcast("_thisnodeChanged", newValue);
 	});
+	$rootScope.selected = $([]);
 	return {
 		restrict: 'A',
 		scope:{
@@ -158,6 +165,7 @@ directives.directive('repEditable', ['$rootScope', function($rootScope){
 				$rootScope.thisnode = element[0];
 			});
 			scope.current = true;
+			scope.selected = false;
 			scope.$on('_thisnodeChanged', function(e, thisnode){
 				scope.current = element[0] === thisnode;
 			});
@@ -203,12 +211,9 @@ directives.directive('repEditable', ['$rootScope', function($rootScope){
 					elems.css('font-size', Math.ceil(elems.css('font-size').slice(0,-2) * 0.9));
 				$rootScope.$broadcast("selectionStyleChanged", begnode, begnode?begnode.parentNode:null);
 			});
-			scope.$on("selectRectangleChanged", function(e, x, y, width, height){
-				console.log(x, y, width, height);
-			});
 		},
 		replace:true,
-		template:'<div contenteditable="true" class="editablediv" ng-class="{chosen:current}"><p><scan>&#8203;</scan></p></div>'
+		template:'<div selectable contenteditable="true" class="editablediv" ng-class="{chosen:current, selected:selected}"><p><scan>&#8203;</scan></p></div>'
 	};
 }]);
 
@@ -227,13 +232,63 @@ directives.directive('panel', ['$compile', function($compile){
 	return {
 		restrict: 'E',
 		link:function(scope, elem, attrs){
+			var draggable, dragging = false, dragbegX, dragbegY ;
+			$(elem).bind("mousemove", function(e){
+				var endX, endY;
+				if (!dragging){
+					if (scope.selected){
+						var selected = scope.selected;
+						draggable = false;
+						for (var index = 0; index < selected.length; index++) {
+							var element = selected[index], x = +element.style.left.slice(0, -2), y = +element.style.top.slice(0, -2), 
+								width = +element.style.width.slice(0, -2), height = +element.style.height.slice(0, -2), curX = e.pageX - panelX,
+								curY = e.pageY - panelY;
+							if (x < curX && width + x > curX && y - 4 < curY && y + 4 > curY
+								|| x < curX && width + x > curX && y + height - 4 < curY && y + height + 4 > curY
+								|| x - 4 < curX && x + 4 > curX && y < curY && y + height > curY
+								|| x + width - 4 < curX && x + width + 4 > curX && y < curY && y + height > curY){
+								draggable = true;
+								break;
+							}
+						}
+					}
+				} else {
+					endX = e.pageX - panelX;
+					endY = e.pageY - panelY;
+					var selected = scope.selected;
+					for (var index = 0; index < selected.length; index++) {
+						var element = $(selected[index]);
+						element.css("left", (+element.css("left").slice(0, -2)) + endX - dragbegX);
+						element.css("top", (+element.css("top").slice(0, -2)) + endY - dragbegY);
+					}
+					dragbegX = endX;
+					dragbegY = endY;
+				}
+			});
+			
+			$(elem).bind("mousedown", function(e){
+				if (!draggable || scope.insertingText)
+					return;
+				dragging = true;
+				dragbegX = e.pageX - panelX;
+				dragbegY = e.pageY - panelY;
+			});
+			
+			$(elem).bind("mouseup", function(e){
+				if (!dragging)
+					return;
+				dragging = false;
+			});
+			
 			registerCreateDiv(
 				elem[0], false,
 				function(){
 					return scope.insertingText;
 				},
 				function(){
+					console.log("Eee");
 					var thisnode = $($compile('<div rep-editable></div>')(scope));
+					console.log("Eee12");
 					scope.$apply();
 					return thisnode;
 				}
@@ -242,24 +297,30 @@ directives.directive('panel', ['$compile', function($compile){
 			registerCreateDiv(
 				elem[0], true,
 				function(){
-					return !scope.insertingText;
+					return !scope.insertingText && !draggable;
 				},
 				function(){
 					return $('<div class="select-helper"></div>');
 				},
 				function(thisnode, x, y, width, height){
 					scope.$broadcast("selectRectangleChanged", x, y, width, height);
+				},
+				function(x, y){
+					scope.$broadcast("selectRectangleChanged", x, y, 0, 0);
 				}
 			);
 			
-			function registerCreateDiv(elem, destroy, cond, createfunc, changefunc){
+			function registerCreateDiv(elem, destroy, cond, createfunc, changefunc, mdfunc){
 				var begoffsetX = null, begoffsetY = null, thisnode = null;// indexZ = 0;
+				
 				elem = $(elem);
 				elem.bind('mousedown', function(e){
 					if (!cond())
-						return false; 
+						return false;
 					begoffsetX = e.offsetX;
-					begoffsetY = e.offsetY;
+					begoffsetY = e.offsetY; 
+					if (!!mdfunc)
+						mdfunc(begoffsetX, begoffsetY);
 				});
 				
 				elem.bind('mousemove', function(e){
@@ -267,16 +328,10 @@ directives.directive('panel', ['$compile', function($compile){
 					if (begoffsetX === null || begoffsetY === null)
 						return;
 					var startX, startY, width, height, endX, endY;
-					if (e.target === elem[0]){
-						endX = e.offsetX;
-						endY = e.offsetY;
-					}
-					else {
-						endX = e.target.offsetLeft + e.offsetX;
-						endY = e.target.offsetTop + e.offsetY;
-					}
 					
-					if (Math.abs(endX - begoffsetX) < 5 || Math.abs(endY - begoffsetY) < 5 ){
+					endX = e.pageX - panelX;
+					endY = e.pageY - panelY;
+					if (Math.abs(endX - begoffsetX) < 2 || Math.abs(endY - begoffsetY) < 2 ){
 						if (thisnode !== null){
 							thisnode.remove();
 							thisnode = null;
@@ -305,7 +360,7 @@ directives.directive('panel', ['$compile', function($compile){
 					scope.insertingText = false;
 					if (!destroy)
 						thisnode = null;
-					else{
+					else if (!!thisnode){
 						thisnode.remove();
 					}
 					begoffsetX = null;
@@ -319,5 +374,34 @@ directives.directive('panel', ['$compile', function($compile){
 				scope.insertingText = true;
 			});
 		}
+	};
+}]);
+
+directives.directive('selectable', ['$rootScope', function($rootScope){
+	return {
+		restrict:"A",
+		link:function(scope, element, attr){
+			scope.$on("selectRectangleChanged", function(e, left, top, width, height){
+				var elem = $(element[0]);
+				var y = +elem.css("top").slice(0, -2), x = +elem.css("left").slice(0, -2),
+					h = +elem.css("height").slice(0, -2), w = +elem.css("width").slice(0, -2), ind = $rootScope.selected.index(elem);
+				if (y >= top && x >= left && height + top >= y + h && width + left >= w + x){
+					if (ind === -1)
+						$rootScope.selected.push(elem[0]);
+				}
+				else {
+					if (ind !== -1)
+						$rootScope.selected.splice(ind, 1);
+				}
+				ind = $rootScope.selected.index(elem);
+				scope.$apply(function(){
+						scope.selected = ind !== -1;
+				});
+			});
+		}
 	}
+}]);
+
+directives.directive('draggable', ['$rootScope', function($rootScope){
+	
 }]);
