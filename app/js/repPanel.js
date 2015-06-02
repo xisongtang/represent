@@ -3,25 +3,50 @@ directives.directive('panel', ['$compile', function($compile){
 	return {
 		restrict: 'E',
 		link:function(scope, elem, attrs){
-			var dragging = false, dragbegX, dragbegY, selected, element;
+			var dragging = false, resizing = false, dragbegX, dragbegY, selected, element, range = 6;
 			scope.draggable = false;
+			scope.resizable = false;
+			scope.resizeCorner = undefined;
 			$(elem).bind("mousemove", function(e){
 				var endX, endY;
-				if (!dragging){
+				if (!dragging && !resizing){
 					if (scope.selected){
-						console.log("draggable");
 						selected = scope.selected;
 						scope.$apply(function(){
 							scope.draggable = false;
+							scope.resizable = false;
+							scope.resizeCorner = undefined;
 						});
 						for (var index = 0; index < selected.length; index++) {
 							element = selected[index];
-							var x = +element.style.left.slice(0, -2), y = +element.style.top.slice(0, -2), width = +element.style.width.slice(0, -2), 
-								height = +element.style.height.slice(0, -2), curX = e.pageX - panelX,	curY = e.pageY - panelY;
-							if (x < curX && width + x > curX && y - 4 < curY && y + 4 > curY
-								|| x < curX && width + x > curX && y + height - 4 < curY && y + height + 4 > curY
-								|| x - 4 < curX && x + 4 > curX && y < curY && y + height > curY
-								|| x + width - 4 < curX && x + width + 4 > curX && y < curY && y + height > curY){
+							var x = +element.style.left.slice(0, -2), y = +element.style.top.slice(0, -2), 
+								width = +element.style.width.slice(0, -2), height = +element.style.height.slice(0, -2), 
+								curX = e.pageX - panelX,	curY = e.pageY - panelY;
+							if (x - range < curX && x + range > curX && y - range < curY && y + range > curY){
+								scope.resizable = true;
+								scope.resizeCorner = "leftup";
+								scope.$digest();
+								break;
+							}else if (x + width - range < curX && x + width + range > curX && y - range < curY && y + range > curY){
+								scope.resizable = true;
+								scope.resizeCorner = "rightup";
+								scope.$digest();
+								break;
+							}else if (x + width - range < curX && x + width + range > curX && y + height - range < curY && y + height + range > curY){
+								scope.resizable = true;
+								scope.resizeCorner = "rightbottom";
+								scope.$digest();
+								break;
+							}else if (x - range < curX && x + range > curX && y + height - range < curY && y + height + range > curY){
+								scope.resizable = true;
+								scope.resizeCorner = "leftbottom";
+								scope.$digest();
+								break;
+							}
+							else if (x < curX && width + x > curX && y - range < curY && y + range > curY
+								|| x < curX && width + x > curX && y + height - range < curY && y + height + range > curY
+								|| x - range < curX && x + range > curX && y < curY && y + height > curY
+								|| x + width - range < curX && x + width + range > curX && y < curY && y + height > curY){
 								scope.draggable = true;
 								scope.$digest();
 								break;
@@ -34,8 +59,28 @@ directives.directive('panel', ['$compile', function($compile){
 					selected = scope.selected;
 					for (var index = 0; index < selected.length; index++) {
 						element = $(selected[index]);
-						element.css("left", (+element.css("left").slice(0, -2)) + endX - dragbegX);
-						element.css("top", (+element.css("top").slice(0, -2)) + endY - dragbegY);
+						if (dragging){
+							element.css("left", (+element.css("left").slice(0, -2)) + endX - dragbegX);
+							element.css("top", (+element.css("top").slice(0, -2)) + endY - dragbegY);
+						} else {
+							if (scope.resizeCorner == "leftup"){
+								element.css("left", (+element.css("left").slice(0, -2)) + endX - dragbegX);
+								element.css("width", (+element.css("width").slice(0, -2)) - endX + dragbegX);
+								element.css("top", (+element.css("top").slice(0, -2)) + endY - dragbegY);
+								element.css("height", (+element.css("height").slice(0, -2)) - endY + dragbegY);
+							} else if (scope.resizeCorner == "rightup"){
+								element.css("width", (+element.css("width").slice(0, -2)) + endX - dragbegX);
+								element.css("top", (+element.css("top").slice(0, -2)) + endY - dragbegY);
+								element.css("height", (+element.css("height").slice(0, -2)) - endY + dragbegY);
+							} else if (scope.resizeCorner == "rightbottom"){
+								element.css("width", (+element.css("width").slice(0, -2)) + endX - dragbegX);
+								element.css("height", (+element.css("height").slice(0, -2)) + endY - dragbegY);
+							}	else if (scope.resizeCorner == "leftbottom"){
+								element.css("left", (+element.css("left").slice(0, -2)) + endX - dragbegX);
+								element.css("height", (+element.css("height").slice(0, -2)) + endY - dragbegY);
+								element.css("width", (+element.css("width").slice(0, -2)) - endX + dragbegX);
+							}
+						}
 					}
 					dragbegX = endX;
 					dragbegY = endY;
@@ -43,17 +88,22 @@ directives.directive('panel', ['$compile', function($compile){
 			});
 			
 			$(elem).bind("mousedown", function(e){
-				if (!scope.draggable || scope.insertingText)
+				if (!scope.draggable && !scope.resizable || scope.insertingText)
 					return;
-				dragging = true;
+				if (scope.draggable)
+					dragging = true;
+				else if (scope.resizable)
+					resizing = true;
+				console.log(dragging, resizing);
 				dragbegX = e.pageX - panelX;
 				dragbegY = e.pageY - panelY;
 			});
 			
 			$(elem).bind("mouseup", function(e){
-				if (!dragging)
-					return;
-				dragging = false;
+				if (dragging)
+					dragging = false;
+				else if (resizing)
+					resizing = false;
 			});
 			
 			registerCreateDiv(
@@ -71,7 +121,7 @@ directives.directive('panel', ['$compile', function($compile){
 			registerCreateDiv(
 				elem[0], true,
 				function(){
-					return !scope.insertingText && !scope.draggable;
+					return !scope.insertingText && !scope.draggable && !scope.resizable;
 				},
 				function(){
 					return $('<div class="select-helper"></div>');

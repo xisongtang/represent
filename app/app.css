@@ -266,3 +266,16 @@ panel .select-helper{
 .cursor-move{
 	cursor: move;
 }
+
+.cursor-nw-resize{
+	cursor: nw-resize;
+}
+.cursor-ne-resize{
+	cursor: ne-resize;
+}
+.cursor-sw-resize{
+	cursor: sw-resize;
+}
+.cursor-se-resize{
+	cursor: se-resize;
+}

@@ -115,7 +115,9 @@
     <div class="new-frame-button" id="bottom-frame-button">
      <span class="glyphicons glyphicons-circle-plus"></span>
     </div>
-    <panel ng-class="{'cursor-move':draggable}">
+    <panel ng-class="{'cursor-move':draggable, 'cursor-nw-resize':(resizeCorner === 'leftup'), 
+      'cursor-ne-resize':(resizeCorner === 'rightup'), 'cursor-sw-resize':(resizeCorner === 'leftbottom'), 
+      'cursor-se-resize':(resizeCorner === 'rightbottom') }">
     </panel>
   </div><!-- .panel-wrapper -->
   <!-- In production use:
