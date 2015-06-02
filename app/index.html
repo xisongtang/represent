@@ -16,6 +16,8 @@
   <script src="bower_components/angular/angular.js"></script>
   <script src="js/controllers.js"></script>
   <script src="js/directives.js"></script>
+  <script src="js/repPanel.js"></script>
+  <script src="js/repEditable.js"></script>    
 </head>
 <body rep-nodefault>
   <!--[if lt IE 7]>
@@ -113,7 +115,7 @@
     <div class="new-frame-button" id="bottom-frame-button">
      <span class="glyphicons glyphicons-circle-plus"></span>
     </div>
-    <panel>
+    <panel ng-class="{'cursor-move':draggable}">
     </panel>
   </div><!-- .panel-wrapper -->
   <!-- In production use:
