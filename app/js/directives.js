@@ -29,12 +29,6 @@ directives.directive('repNodefault', ['$rootScope', function($rootScope){
 		restrict: 'A',
 		link: function(scope, elem, attrs){
 			elem.on('mousedown mousemove', function(e){
-				if (e.target.tagName === "INPUT"){
-					return true;
-				}
-				else{
-					$("input[type='number']").blur();
-				}
 				e.preventDefault();
 			});
 		}
@@ -123,31 +117,5 @@ directives.directive('repVideo', ['$rootScope', function($rootScope){
 		},
 		replace:true,
 		template:"<video selectable ng-class='{selected:selected}'/>"
-	};
-}]);
-
-directives.directive('repMusic', ['$rootScope', function($rootScope){
-	return {
-		restrict: 'A',
-		transclude:true,
-		scope: {
-		},
-		link: function(scope, elem, attrs){
-			elem = $(elem[0]);
-			elem.bind('mousedown', function(e){
-				if ($rootScope.draggable || $rootScope.resizable){
-					e.preventDefault();
-					return;
-				}
-				e.stopPropagation();
-			});
-			elem.bind('click', function(e){
-				e.stopPropagation();
-				$rootScope.selected = $(elem[0]);
-				$rootScope.$broadcast('selectedEditablesChanged');
-			});
-		},
-		replace:true,
-		template:"<audio selectable ng-class='{selected:selected}'/>"
 	};
 }]);

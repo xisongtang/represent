@@ -96,7 +96,7 @@ controllers.controller('toolController', ['$scope', '$rootScope', function($scop
 	
 	$scope.bgcolor = {'current':'white', 'target':'', 'css':'background'};
 	//$scope.bdcolor = {'current':'rgba(0,0,0,0)', 'target':'', 'css':'border-color'};
-	$scope.zindex = {'current': '0', 'target':'', 'css':'z-index'};
+	$scope.zindex = {'current': 0, 'target':'', 'css':'z-index'};
 	$scope.$on("selectionStyleChanged", function(e, node, thisnode, blocknode){
 		var temp;
 		if (!!node){
@@ -121,9 +121,13 @@ controllers.controller('toolController', ['$scope', '$rootScope', function($scop
 			$scope.textAlignCenter.current = angular.element(thisnode).css($scope.textAlignCenter.css) == $scope.textAlignCenter.target;
 			$scope.textAlignJustify.current = angular.element(thisnode).css($scope.textAlignJustify.css) == $scope.textAlignJustify.target;
 			$scope.textIndent.current = angular.element(thisnode).css($scope.textIndent.css) == $scope.textIndent.target;
+			temp = angular.element(thisnode).css($scope.lineHeight.css);
+			$scope.lineHeight.chosen = (temp)? temp: $scope.lineHeight.default;
+			temp = angular.element(thisnode).css($scope.letterSpace.css);
+			$scope.letterSpace.chosen = (temp)? temp: $scope.letterSpace.default;
 		}
 		if (!!blocknode){
-			$scope.zindex.current = angular.element(blocknode).css($scope.zindex.css)?angular.element(blocknode).css($scope.zindex.css):'0';
+			$scope.zindex.current = angular.element(blocknode).css($scope.zindex.css)?+angular.element(blocknode).css($scope.zindex.css):0;
 			$scope.bgcolor.current = angular.element(blocknode).css($scope.bgcolor.css)?angular.element(blocknode).css($scope.bgcolor.css):'white';
 		}
 	});
@@ -176,15 +180,23 @@ controllers.controller('insertController', ['$scope', '$rootScope', function($sc
 	});
 	$scope.imageButtonClick = function(){
 		$scope.inserting = 'image';
-		$rootScope.$broadcast('insertImage');	
+		$rootScope.$broadcast('insertImage', "imgs/Hearthstone Screenshot 05-22-15 17.20.10.png");	
 	};
 	$scope.videoButtonClick = function(){
 		$scope.inserting = 'video';
-		$rootScope.$broadcast('insertVideo');
+		$rootScope.$broadcast('insertVideo', "videos/123.avi");
 	};
 	
-	$scope.musicButtonClick = function(){
-		$scope.inserting = 'music';
-		$rootScope.$broadcast('insertMusic');
+	$scope.bgColorButtonClick = function(color){
+		$scope.inserting = null;
+		$rootScope.$broadcast('insertBackgroundColor', color);
+	};
+	$scope.bgImageButtonClick = function(){
+		$scope.inserting = null;
+		$rootScope.$broadcast('insertBackgroundImage', "imgs/screenshot.png");	
+	};
+	$scope.bgMusicButtonClick = function(){
+		$scope.inserting = null;
+		$rootScope.$broadcast('insertBackgroundMusic', "mp3/光るなら.mp3");
 	};
 }]);

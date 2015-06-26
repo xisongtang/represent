@@ -44,6 +44,7 @@ directives.directive('repEditable', ['$rootScope', function($rootScope){
 		end = res.index(endnode.parentNode);
 		return res.slice(beg, end + 1);
 	};
+	
 	var thisnode = null;
 	
 	$('.panel-wrapper, panel').bind('mousedown', function(e){
@@ -121,7 +122,7 @@ directives.directive('repEditable', ['$rootScope', function($rootScope){
 	});
 	
 	$rootScope.$watch('begnode', function(newValue, oldValue){
-		$rootScope.$broadcast("selectionStyleChanged", begnode, begnode?begnode.parentNode:null);
+		$rootScope.$broadcast("selectionStyleChanged", begnode, begnode?begnode.parentNode:null, begnode?begnode.parentNode.parentNode:null);
 	});
 	$rootScope.$watch('thisnode', function(newValue, oldValue){
 		$rootScope.$broadcast("thisnodeChanged", newValue);
@@ -168,6 +169,13 @@ directives.directive('repEditable', ['$rootScope', function($rootScope){
 					
 				getParasBetween().css(key, value);
 				$rootScope.$broadcast("selectionStyleChanged", begnode, begnode?begnode.parentNode:null);
+			});
+			scope.$on("blockStyleChanged", function(e, key, value){
+				if (element[0] !== thisnode)
+					return;
+					
+				$(begnode).parent().parent().css(key, value);
+				$rootScope.$broadcast("selectionStyleChanged", begnode, begnode?begnode.parentNode:null, begnode?begnode.parentNode.parentNode:null);
 			});
 			scope.$on("clearStyle", function(e){
 				if (element[0] !== thisnode)

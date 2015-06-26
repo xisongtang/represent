@@ -6,7 +6,7 @@
   </button>
   <ul class="dropdown-menu" role="menu" >
     <li ng-repeat="ff in attr.items" ng-class="{active:attr.chosen==ff}" ng-click="chooseStyle(ff)">
-      <a href="#" value="{{ff}}">{{ff}}</a>
+      <a href="#" ng-value="ff">{{ff}}</a>
     </li>
   </ul>
 </div>

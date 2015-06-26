@@ -203,20 +203,27 @@ directives.directive('panel', ['$compile', function($compile){
 			scope.$on("insertText", function(){
 				scope.insertingText = true;
 			});
-			scope.$on("insertImage", function(){
+			scope.$on("insertImage", function(e, image){
 				console.log("insertImage");
-				$(elem).append($compile("<img rep-img src='imgs/Hearthstone Screenshot 05-22-15 17.20.10.png'/>")(scope));
-				//scope.$apply();
+				$(elem).append($compile("<img rep-img src='" + image + "'/>")(scope));
 			});
-			scope.$on("insertVideo", function(){
+			scope.$on("insertVideo", function(e, video){
 				console.log("insertVideo");
-				$(elem).append($compile("<video rep-video src='videos/123.avi' controls></video>")(scope));
-				//scope.$apply();
+				$(elem).append($compile("<video rep-video src='" + video + "' controls></video>")(scope));
 			});
-			scope.$on("insertMusic", function(){
-				console.log("insertMusic");
-				$(elem).append($compile("<audio rep-music src='mp3/光るなら.mp3' controls></audio>")(scope));
-				//scope.$apply();
+			
+			scope.$on("insertBackgroundMusic", function(e, music){
+				console.log("insertBackgroundMusic");
+				$(elem).find("audio").remove();
+				$(elem).append("<audio autoplay src='" + music + "' controls style='display:none'></audio>");
+			});
+			scope.$on("insertBackgroundColor", function(e, color){
+				console.log("insertBackgroundColor");
+				$(elem).css("background-color", color);
+			});
+			scope.$on("insertBackgroundImage", function(e, image){
+				console.log("insertBackgroundImage");
+				$(elem).css("background", "url(" + image + ") 0 0 /100% 100% no-repeat");
 			});
 		}
 	};

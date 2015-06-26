@@ -15,7 +15,11 @@ body{
 	border-right: 1px solid #bebebe;
 	background-color: #e6e6e6;
 }
-
+hr{
+	margin: 10px 0;
+  border: 0;
+  border-top: 1px solid #eee;
+}
 #insert-col li.active{
 	background: #eee;
 }
@@ -50,6 +54,12 @@ body{
 
 #insert-col ul li span.insert-col-text{
 	padding-left: 10px;
+}
+
+#insert-col ul li>label{
+	font-weight:normal;
+	cursor: pointer;
+	width: 100%;
 }
 
 #insert-col div.insert-col-header{
@@ -144,8 +154,22 @@ body{
 	background-color: #606060;
 }
 
-.tool-row .btn:hover, .tool-row .dropdown-menu li:hover, .tool-row .dropdown-menu li a:hover{
+.tool-row .btn:hover, .tool-row .dropdown-menu li:hover, .tool-row .dropdown-menu li a:hover, .tool-row .combine>div:hover{
 	background-color: #808080;
+	cursor: pointer;
+}
+
+.layer-num{
+	display: inline-block;
+	width: 1.5em;
+	text-align: center;	
+}
+
+.combine>div:active{
+	background-image: none;
+  outline: 0;
+  -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125)
 }
 
 .tool-row .btn span.glyphicons{
@@ -177,6 +201,15 @@ body{
 	margin: 0px 2px;
 }
 
+.tool-row .combine{
+	display: inline-block;
+	vertical-align: middle;
+	margin-right: 5px;
+}
+.tool-row .combine>div:hover{
+	
+}
+
 .btn.active{
 	box-shadow: inset 0 3px 5px rgba(0, 0, 0, .5);
 }
@@ -186,7 +219,7 @@ body{
 	border-radius: 2px;
 }
 
-#color-picker, #background-color-picker, #block-bgcolor-picker, #block-bdcolor-picker{
+#color-picker, #background-color-picker, #block-bgcolor-picker, #block-bdcolor-picker, #panel-bgcolor-picker{
 	visibility: hidden;
 	height: 0px;
 	width: 0px;
