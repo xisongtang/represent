@@ -20,7 +20,8 @@ directives.directive('panel', ['$compile', function($compile){
 						for (var index = 0; index < selected.length; index++) {
 							element = selected[index];
 							var x = +element.style.left.slice(0, -2), y = +element.style.top.slice(0, -2), 
-								width = +element.style.width.slice(0, -2), height = +element.style.height.slice(0, -2), 
+								width = +$(element).css("width").slice(0, -2), 
+								height = +$(element).css("height").slice(0, -2), 
 								curX = e.pageX - panelX,	curY = e.pageY - panelY;
 							if (x - range < curX && x + range > curX && y - range < curY && y + range > curY){
 								scope.resizable = true;
@@ -42,6 +43,11 @@ directives.directive('panel', ['$compile', function($compile){
 								scope.resizeCorner = "leftbottom";
 								scope.$digest();
 								break;
+							}else if ((element.tagName === 'IMG' || element.tagName === 'VIDEO' || element.tagName === 'AUDIO')&& 
+								x - range < curX && x + width + range > curX && 
+								y - range < curY && y + height + range > curY){
+								scope.draggable= true;
+								scope.$digest();
 							}
 							else if (x < curX && width + x > curX && y - range < curY && y + range > curY
 								|| x < curX && width + x > curX && y + height - range < curY && y + height + range > curY
@@ -196,6 +202,21 @@ directives.directive('panel', ['$compile', function($compile){
 			scope.insertingText = false;
 			scope.$on("insertText", function(){
 				scope.insertingText = true;
+			});
+			scope.$on("insertImage", function(){
+				console.log("insertImage");
+				$(elem).append($compile("<img rep-img src='imgs/Hearthstone Screenshot 05-22-15 17.20.10.png'/>")(scope));
+				//scope.$apply();
+			});
+			scope.$on("insertVideo", function(){
+				console.log("insertVideo");
+				$(elem).append($compile("<video rep-video src='videos/123.avi' controls></video>")(scope));
+				//scope.$apply();
+			});
+			scope.$on("insertMusic", function(){
+				console.log("insertMusic");
+				$(elem).append($compile("<audio rep-music src='mp3/光るなら.mp3' controls></audio>")(scope));
+				//scope.$apply();
 			});
 		}
 	};

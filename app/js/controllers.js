@@ -87,12 +87,17 @@ controllers.controller('toolController', ['$scope', '$rootScope', function($scop
 	$scope.subscript = {'current':false, 'target':'sub', 'css':'vertical-align', 'intarget':'baseline'};
 	$scope.color = {'current':'black', 'css':'color', 'target':''};
 	$scope.backgroundColor = {'current':"white", 'css':'background-color', 'target':''};
+	
 	$scope.textAlignLeft = {'current':true,'target':"left", 'css':'text-align', 'intarget':'left'};
 	$scope.textAlignRight = {'current':false,'target':"right", 'css':'text-align', 'intarget':'right'};
 	$scope.textAlignCenter = {'current':false,'target':"center", 'css':'text-align', 'intarget':'center'};
 	$scope.textAlignJustify = {'current':false,'target':"justify", 'css':'text-align', 'intarget':'center'};
 	$scope.textIndent = {'current':false, 'target':'2em', 'css':'text-indent', 'intarget':'0'};
-	$scope.$on("selectionStyleChanged", function(e, node, thisnode){
+	
+	$scope.bgcolor = {'current':'white', 'target':'', 'css':'background'};
+	//$scope.bdcolor = {'current':'rgba(0,0,0,0)', 'target':'', 'css':'border-color'};
+	$scope.zindex = {'current': '0', 'target':'', 'css':'z-index'};
+	$scope.$on("selectionStyleChanged", function(e, node, thisnode, blocknode){
 		var temp;
 		if (!!node){
 			$scope.bold.current = angular.element(node).css($scope.bold.css) == $scope.bold.target;
@@ -117,6 +122,10 @@ controllers.controller('toolController', ['$scope', '$rootScope', function($scop
 			$scope.textAlignJustify.current = angular.element(thisnode).css($scope.textAlignJustify.css) == $scope.textAlignJustify.target;
 			$scope.textIndent.current = angular.element(thisnode).css($scope.textIndent.css) == $scope.textIndent.target;
 		}
+		if (!!blocknode){
+			$scope.zindex.current = angular.element(blocknode).css($scope.zindex.css)?angular.element(blocknode).css($scope.zindex.css):'0';
+			$scope.bgcolor.current = angular.element(blocknode).css($scope.bgcolor.css)?angular.element(blocknode).css($scope.bgcolor.css):'white';
+		}
 	});
 	//代码高亮
 	//引用
@@ -134,7 +143,11 @@ controllers.controller('toolController', ['$scope', '$rootScope', function($scop
 			else
 				$rootScope.$broadcast("fontStyleChanged", a.css, a.target);
 		}
-	}
+	};
+	$scope.changeBlockStyle = function(a){
+		$rootScope.$broadcast("blockStyleChanged", a.css, a.target);
+	};
+	
 	$scope.changeParaStyle = function(a){
 		$rootScope.$broadcast("paraStyleChanged", a.css, a.target);
 	};
@@ -161,4 +174,17 @@ controllers.controller('insertController', ['$scope', '$rootScope', function($sc
 			$scope.inserting = null;
 		});
 	});
+	$scope.imageButtonClick = function(){
+		$scope.inserting = 'image';
+		$rootScope.$broadcast('insertImage');	
+	};
+	$scope.videoButtonClick = function(){
+		$scope.inserting = 'video';
+		$rootScope.$broadcast('insertVideo');
+	};
+	
+	$scope.musicButtonClick = function(){
+		$scope.inserting = 'music';
+		$rootScope.$broadcast('insertMusic');
+	};
 }]);

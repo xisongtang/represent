@@ -126,7 +126,6 @@ directives.directive('repEditable', ['$rootScope', function($rootScope){
 	$rootScope.$watch('thisnode', function(newValue, oldValue){
 		$rootScope.$broadcast("thisnodeChanged", newValue);
 	});
-	$rootScope.selected = $([]);
 	return {
 		restrict: 'A',
 		transclude: true,
@@ -193,6 +192,6 @@ directives.directive('repEditable', ['$rootScope', function($rootScope){
 			});
 		},
 		replace:true,
-		template:'<div selectable contenteditable="true" class="editablediv" ng-class="{selected:selected, chosen:current, \'cursor-move\':draggable}"><p><scan>&#8203;</scan></p></div>'
+		template:'<div selectable contenteditable="true" class="editablediv" ng-class="{selected:selected, chosen:current}"><p><scan>&#8203;</scan></p></div>'
 	};
 }]);

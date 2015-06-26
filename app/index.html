@@ -68,12 +68,28 @@
           <div class="btn" ng-class="{active:textAlignRight.current}"title="右对齐" ng-click="changeParaStyle(textAlignRight);" ><span class="glyphicons glyphicons-align-right"></span></div>
           <div class="btn" ng-class="{active:textAlignJustify.current}"title="两端对齐" ng-click="changeParaStyle(textAlignJustify);" ><span class="glyphicons glyphicons-justify" ></span></div>
           <div class="btn" ng-class="{active:textIndent.current}"title="首航缩进" ng-click="changeParaStyle(textIndent);" ><span class="glyphicons glyphicons-left-indent" ></span></div>
-          <div class="btn" title="代码高亮"><span class="glyphicons glyphicons-embed-close"></span></div>
-          <div class="btn" title="引用"><span class="glyphicons glyphicons-quote"></span></div>
+          <!--<div class="btn" title="代码高亮"><span class="glyphicons glyphicons-embed-close"></span></div>-->
+          <!--<div class="btn" title="引用"><span class="glyphicons glyphicons-quote"></span></div>-->
         </div><!-- btn-group -->
       </div><!-- .tool-row -->
       <div class="tool-label">段落</div>
     </div><!-- .sec-tool -->
+    
+    <div id="block-tool" class="tool-subpanel">
+      <div class="tool-row">
+        <div class="btn-group" role="group">
+          <label for="block-bgcolor-picker" class="btn" title="区块颜色" ng-style="{'color':bgcolor.current}" ><span class="glyphicons glyphicons-bring-forward" aria-hidden="true"></span></label>
+          <input type="color" id="block-bgcolor-picker" ng-model="bgcolor.target" ng-change="changeBlockStyle(bgcolor)"/>
+          <!--<label for="block-bdcolor-picker" class="btn" title="区块边界颜色" ng-style="{'color':bdcolor.current}" ><span class="glyphicons glyphicons-fit-image-to-frame" aria-hidden="true"></span></label>
+          <input type="color" id="block-bdcolor-picker" ng-model="bdcolor.target" ng-change="changeFontStyle(bdcolor)"></input>-->
+        </div><!-- btn-group -->
+      </div><!-- .tool-row -->
+      <div class="tool-row">
+        <label class="tool-row-head">层级:</label>
+        <input type="number" ng-model="zindex.target" ng-change="changeBlockStyle(zindex)" ng-value="zindex.current"/>
+      </div><!-- .tool-row -->
+      <div class="tool-label">区块</div>
+    </div><!-- .block-tool -->
     <div id="anim-tool" class="tool-subpanel">
       <div class="tool-row">
         <label class="tool-row-head">当前帧:</label>
@@ -96,10 +112,11 @@
     <div class="insert-col-header"><h2>插入</h2></div>
     <ul>
       <li ng-class="{active:(inserting === 'text')}" ng-click="textButtonClick();" ><span class="glyphicons glyphicons-list" aria-hidden="true"></span><span class="insert-col-text">文本框</span></li>
-      <li ng-class="{active:(inserting === 'picture')}" ><span class="glyphicons glyphicons-picture" aria-hidden="true"></span><span class="insert-col-text">图片</span></li>
-      <li ng-class="{active:(inserting === 'film')}" ><span class="glyphicons glyphicons-film" aria-hidden="true"></span><span class="insert-col-text">视频</span></li>
-      <li ng-class="{active:(inserting === 'music')}" ><span class="glyphicons glyphicons-music" aria-hidden="true"></span><span class="insert-col-text">音频</span></li>
-      <li ng-class="{active:(inserting === 'table')}" ><span class="glyphicons glyphicons-table" aria-hidden="true"></span><span class="insert-col-text">表格</span></li>
+      <li ng-class="{active:(inserting === 'image')}" ng-click="imageButtonClick();" ><span class="glyphicons glyphicons-picture" aria-hidden="true"></span><span class="insert-col-text">图片</span></li>
+      <li ng-class="{active:(inserting === 'video')}" ng-click="videoButtonClick();" ><span class="glyphicons glyphicons-film" aria-hidden="true"></span><span class="insert-col-text">视频</span></li>
+      <li ng-class="{active:(inserting === 'text')}" ng-click="textButtonClick();" ><span class="glyphicons glyphicons-bring-forward" aria-hidden="true"></span><span class="insert-col-text">背景颜色</span></li>
+      <li ng-class="{active:(inserting === 'image')}" ng-click="imageButtonClick();" ><span class="glyphicons glyphicons-picture" aria-hidden="true"></span><span class="insert-col-text">背景图片</span></li>
+      <li ng-class="{active:(inserting === 'music')}"ng-click="musicButtonClick();" ><span class="glyphicons glyphicons-music" aria-hidden="true"></span><span class="insert-col-text">背景音频</span></li>
     </ul>
   </div>
   <div class="panel-wrapper">

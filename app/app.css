@@ -24,6 +24,7 @@ body{
 	padding-left: 20px;
 	padding-top: 20px;
 }
+
 #insert-col ul li{
 	cursor: pointer;
 	margin-bottom: 10px;
@@ -34,6 +35,7 @@ body{
 	vertical-align: middle;
 	box-shadow: 0px 2px 6px rgba(0,0,0,0.1),0px 4px 15px -5px transparent;
 }
+
 #insert-col ul li:hover{
 	background: #f5f5f5;
 }
@@ -64,12 +66,19 @@ body{
 
 #tool-panel{
 	position: absolute;
+	z-index: 500;
 	top: 0px;
 	left: 0px;
 	right:0px;
 	height: 100px;
-	overflow: hidden;
 	background: #404040;
+}
+#tool-panel::after{
+	content: ".";
+	height: 0px;
+	visibility: hidden;
+	display: block;
+	clear: both;
 }
 
 #tool-panel div.logo{
@@ -104,6 +113,7 @@ body{
 	padding-top: 5px;
 	height: 35px;
 }
+
 .tool-row label.tool-row-head{
 	padding-left:5px;
 	padding-right:5px;
@@ -133,6 +143,7 @@ body{
 .tool-row .dropdown-menu .active a{
 	background-color: #606060;
 }
+
 .tool-row .btn:hover, .tool-row .dropdown-menu li:hover, .tool-row .dropdown-menu li a:hover{
 	background-color: #808080;
 }
@@ -140,6 +151,7 @@ body{
 .tool-row .btn span.glyphicons{
 	font-size: 18px;
 }
+
 .tool-row .dropdown-toggle span.glyphicons{
 	font-size: 16px;
 	top: -1px;
@@ -157,6 +169,14 @@ body{
 	box-shadow: 1px 1px 6px #ccc;
 }
 
+.tool-row input[type="number"]{
+	width: 3em;
+	background-color: #404040;
+	color: white;
+	border: 1px solid grey;
+	margin: 0px 2px;
+}
+
 .btn.active{
 	box-shadow: inset 0 3px 5px rgba(0, 0, 0, .5);
 }
@@ -165,7 +185,8 @@ body{
 	background-color: #eee;
 	border-radius: 2px;
 }
-#color-picker, #background-color-picker{
+
+#color-picker, #background-color-picker, #block-bgcolor-picker, #block-bdcolor-picker{
 	visibility: hidden;
 	height: 0px;
 	width: 0px;
@@ -194,7 +215,7 @@ panel{
 	display: block;
 	position: relative;
 	margin: 0 auto;
-	height: 600px;
+	height: 700px;
 	width: 960px;
 	overflow: hidden;
 	word-break: break-all;
@@ -252,8 +273,13 @@ panel .select-helper{
 	position: absolute;
 	border: 1px solid gray;
 }
-
-.editablediv.selected{
+panel img, panel video, panel audio{
+	position: absolute;
+	box-sizing: content-box;
+	left: 0px;
+	top: 0px;
+}
+.editablediv.selected, img.selected, video.selected, audio.selected{
 	border: 1px solid #666;
 }
 
