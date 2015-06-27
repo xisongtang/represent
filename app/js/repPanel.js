@@ -1,3 +1,63 @@
+function registerCreateDiv(elem, destroy, cond, createfunc, changefunc, mdfunc, endfunc){
+	var begoffsetX = null, begoffsetY = null, thisnode = null;// indexZ = 0;
+	var wrapper = $(elem.parentNode);
+	elem = $(elem);
+	wrapper.bind('mousedown', function(e){
+		if (!cond())
+			return true;
+		begoffsetX = e.pageX - panelX;
+		begoffsetY = e.pageY - panelY;
+		if (!!mdfunc)
+			mdfunc(begoffsetX, begoffsetY);
+	});
+	
+	wrapper.bind('mousemove', function(e){
+		e.originalEvent.stopPropagation();
+		if (begoffsetX === null || begoffsetY === null){
+			return false;	
+		}
+		var startX, startY, width, height, endX, endY;
+		
+		endX = e.pageX - panelX;
+		endY = e.pageY - panelY;
+		if (Math.abs(endX - begoffsetX) < 2 || Math.abs(endY - begoffsetY) < 2 ){
+			if (thisnode !== null){
+				thisnode.remove();
+				thisnode = null;
+			}
+			return;
+		}
+		startX = endX < begoffsetX ? endX : begoffsetX;
+		startY = endY < begoffsetY ? endY : begoffsetY;
+		width = Math.abs(endX - begoffsetX);
+		height = Math.abs(endY - begoffsetY);
+		if (!thisnode){
+			thisnode = $(createfunc());
+			elem.append(thisnode);
+		}
+		thisnode.css("top", startY.toString() + "px");
+		thisnode.css("left", startX.toString() + "px");
+		thisnode.css("height", height.toString() + "px");
+		thisnode.css("width", width.toString() + "px");
+		if (!!changefunc)
+			changefunc(thisnode, startX, startY, width, height);
+	});
+	
+	wrapper.bind('mouseup',function(e){
+		if (begoffsetX === null)
+			return;
+		if (!destroy)
+			thisnode = null;
+		else if (!!thisnode){
+			thisnode.remove();
+		}
+		begoffsetX = null;
+		begoffsetY = null;
+		if (!!endfunc)
+			endfunc();
+	});
+}
+
 directives.directive('section', ['$compile','$rootScope', function($compile, scope){
 	return {
 		restrict: 'A',
@@ -5,15 +65,13 @@ directives.directive('section', ['$compile','$rootScope', function($compile, sco
 			
 		},
 		link:function($scope, elem, attrs){
-			console.log("section");
-			console.log($scope);
 			$scope.x = $scope.$parent.x;
 			$scope.y = $scope.$parent.y;
 			var dragging = false, resizing = false, dragbegX, dragbegY, selected, element, range = 6;
 			scope.draggable = false;
 			scope.resizable = false;
 			scope.resizeCorner = undefined;
-			$(elem).bind("mousemove", function(e){
+			$(elem[0].parentNode).bind("mousemove", function(e){
 				var endX, endY;
 				if (!dragging && !resizing){
 					if (scope.selected){
@@ -99,25 +157,7 @@ directives.directive('section', ['$compile','$rootScope', function($compile, sco
 				}
 			});
 			
-			$(elem).bind("mousedown", function(e){
-				if (!scope.draggable && !scope.resizable || scope.insertingText)
-					return;
-				if (scope.draggable)
-					dragging = true;
-				else if (scope.resizable)
-					resizing = true;
-				console.log(dragging, resizing);
-				dragbegX = e.pageX - panelX;
-				dragbegY = e.pageY - panelY;
-			});
-			
-			$(elem).bind("mouseup", function(e){
-				if (dragging)
-					dragging = false;
-				else if (resizing)
-					resizing = false;
-			});
-			
+			//insertText Div
 			registerCreateDiv(
 				elem[0], false,
 				function(){
@@ -127,9 +167,15 @@ directives.directive('section', ['$compile','$rootScope', function($compile, sco
 					var thisnode = $($compile('<div rep-editable></div>')(scope));
 					scope.$apply();
 					return thisnode;
+				},
+				null, null, 
+				function(){
+					scope.insertingText = false;
+					scope.$broadcast("insertTextEnd");
 				}
 			);
 			
+			//selete helper Div
 			registerCreateDiv(
 				elem[0], true,
 				function(){
@@ -143,67 +189,27 @@ directives.directive('section', ['$compile','$rootScope', function($compile, sco
 				},
 				function(x, y){
 					scope.$broadcast("selectRectangleChanged", x, y, 0, 0);
-				}
+				}, null
 			);
 			
-			function registerCreateDiv(elem, destroy, cond, createfunc, changefunc, mdfunc){
-				var begoffsetX = null, begoffsetY = null, thisnode = null;// indexZ = 0;
-				
-				elem = $(elem);
-				elem.bind('mousedown', function(e){
-					if (!cond())
-						return false;
-					begoffsetX = e.offsetX;
-					begoffsetY = e.offsetY; 
-					if (!!mdfunc)
-						mdfunc(begoffsetX, begoffsetY);
-				});
-				
-				elem.bind('mousemove', function(e){
-					e.originalEvent.stopPropagation();
-					if (begoffsetX === null || begoffsetY === null)
-						return;
-					var startX, startY, width, height, endX, endY;
-					
-					endX = e.pageX - panelX;
-					endY = e.pageY - panelY;
-					if (Math.abs(endX - begoffsetX) < 2 || Math.abs(endY - begoffsetY) < 2 ){
-						if (thisnode !== null){
-							thisnode.remove();
-							thisnode = null;
-						}
-						return;
-					}
-					startX = endX < begoffsetX ? endX : begoffsetX;
-					startY = endY < begoffsetY ? endY : begoffsetY;
-					width = Math.abs(endX - begoffsetX);
-					height = Math.abs(endY - begoffsetY);
-					if (!thisnode){
-						thisnode = $(createfunc());
-						elem.append(thisnode);
-					}
-					thisnode.css("top", startY.toString() + "px");
-					thisnode.css("left", startX.toString() + "px");
-					thisnode.css("height", height.toString() + "px");
-					thisnode.css("width", width.toString() + "px");
-					if (!!changefunc)
-						changefunc(thisnode, startX, startY, width, height);
-				});
-				
-				elem.bind('mouseup',function(e){
-					if (begoffsetX === null)
-						return;
-					scope.insertingText = false;
-					if (!destroy)
-						thisnode = null;
-					else if (!!thisnode){
-						thisnode.remove();
-					}
-					begoffsetX = null;
-					begoffsetY = null;
-					scope.$broadcast("insertTextEnd");
-				});
-			}
+			$(elem[0].parentNode).bind("mousedown", function(e){
+				if (!scope.draggable && !scope.resizable || scope.insertingText)
+					return;
+				if (scope.draggable)
+					dragging = true;
+				else if (scope.resizable)
+					resizing = true;
+				console.log(dragging, resizing);
+				dragbegX = e.pageX - panelX;
+				dragbegY = e.pageY - panelY;
+			});
+			
+			$(elem[0].parentNode).bind("mouseup", function(e){
+				if (dragging)
+					dragging = false;
+				else if (resizing)
+					resizing = false;
+			});
 			
 			scope.insertingText = false;
 			scope.$on("insertText", function(){

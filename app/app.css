@@ -240,12 +240,14 @@ hr{
 	width: 100%;
 	height: 100%;
 	background: #eee;
+	
 }
 
 .rel-wrapper{
 	position: relative;
 	padding: 70px 0;
 	margin-left: 200px;
+	overflow: hidden;
 }
 
 section{
@@ -254,7 +256,6 @@ section{
 	margin: 0 auto;
 	height: 700px;
 	width: 960px;
-	overflow: hidden;
 	word-break: break-all;
 	box-shadow: 1px 1px 10px #aaa;
 	background-color: #fff;

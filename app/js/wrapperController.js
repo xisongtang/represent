@@ -1,14 +1,13 @@
 /* global controllers */
-var a;
 controllers.controller("wrapperController", ['$templateRequest','$timeout','$templateCache', '$scope', '$compile', 
 	function($templateRequest, $timeout, $templateCache, $scope, $compile){
   $templateRequest("template/index.html");
-	console.log("wrapperController");
 	$scope.x = 0;
 	$scope.y = 0;
 	$scope.panels = [[$("section")]];
-	a = $scope;
+	//flag to tell whether y was changed by the change of x
 	var flag = false;
+	//when x is changed 
 	$scope.$watch("x", function(nx, ox){
 		if (nx === ox)
 			return;
@@ -17,7 +16,7 @@ controllers.controller("wrapperController", ['$templateRequest','$timeout','$tem
 			$scope.panels[nx] = [];
 			console.log("compile");
 			$scope.panels[nx][0] = $($compile($templateCache.get('section-template'))($scope));
-			$(".section-wrapper").append($scope.panels[nx][0]);
+			$(".rel-wrapper").append($scope.panels[nx][0]);
 		}
 		else 
 			$scope.panels[nx][0].css("display", "block");
@@ -28,6 +27,7 @@ controllers.controller("wrapperController", ['$templateRequest','$timeout','$tem
 			$scope.$digest();
 		});
 	});
+	//when y is changed 
 	$scope.$watch("y", function(ny, oy){
 		if (flag){
 			flag = false;
@@ -38,11 +38,12 @@ controllers.controller("wrapperController", ['$templateRequest','$timeout','$tem
 		$scope.panels[$scope.x][oy].css("display", "none");
 		if (!$scope.panels[$scope.x][ny]){
 			$scope.panels[$scope.x][ny] = $($compile($templateCache.get('section-template'))($scope));
-			$(".section-wrapper").append($scope.panels[$scope.x][ny]);
+			$(".rel-wrapper").append($scope.panels[$scope.x][ny]);
 		}
 		else
 			$scope.panels[$scope.x][ny].css("display", "block");
 	});
+	//save the presentation
 	$scope.onSaveButtonClick = function(){
 		var cont = $("<div>");
 		var clearElem = function(elem){

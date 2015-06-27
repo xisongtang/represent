@@ -147,7 +147,7 @@ directives.directive('repEditable', ['$rootScope', function($rootScope){
 			$(element[0]).bind('mousedown', function(e){
 				if ($rootScope.draggable || $rootScope.resizable){
 					e.preventDefault();
-					return ;
+					return true;
 				}
 				var ee = e.originalEvent;
 				thisnode = element[0];

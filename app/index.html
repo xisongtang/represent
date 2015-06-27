@@ -21,11 +21,11 @@
   <script src="js/repEditable.js"></script>
   <script src="js/wrapperController.js"></script>        
 </head>
-<body rep-nodefault>
+<body>
   <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
-  <div id="tool-panel" ng-controller="toolController">
+  <div id="tool-panel" ng-controller="toolController"  rep-nodefault>
     <div class="logo" >
       <h1>REP</h1>
     </div>
@@ -112,9 +112,9 @@
       </div><!-- .tool-row -->
       <div class="tool-label">动画</div>
     </div><!-- .ani-tool -->
-  </div>
-  <div class="m-cont">
-	<div id="insert-col" ng-controller="insertController">
+  </div><!-- tool-panel -->
+  <div class="m-cont"  >
+	<div id="insert-col" ng-controller="insertController" rep-nodefault>
     <div class="insert-col-header"><h2>插入</h2></div>
     <ul>
       <li ng-class="{active:(inserting === 'text')}" ng-click="textButtonClick();" ><span class="glyphicons glyphicons-list" aria-hidden="true"></span><span class="insert-col-text">文本框</span></li>
@@ -126,8 +126,8 @@
       <li ng-click="bgMusicButtonClick();" ><span class="glyphicons glyphicons-music" aria-hidden="true"></span><span class="insert-col-text">背景音频</span></li>
     </ul>
   </div>
-  <div class="section-wrapper" ng-controller="wrapperController">
-    <div class="rel-wrapper">
+  <div class="section-wrapper" >
+    <div class="rel-wrapper" ng-controller="wrapperController" >
       <div id="save-button" ng-click="onSaveButtonClick();">
         <span class="glyphicons glyphicons-floppy-save"></span>
       </div>
