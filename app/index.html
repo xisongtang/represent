@@ -113,6 +113,7 @@
       <div class="tool-label">动画</div>
     </div><!-- .ani-tool -->
   </div>
+  <div class="m-cont">
 	<div id="insert-col" ng-controller="insertController">
     <div class="insert-col-header"><h2>插入</h2></div>
     <ul>
@@ -126,34 +127,41 @@
     </ul>
   </div>
   <div class="section-wrapper" ng-controller="wrapperController">
-    <div id="save-button" ng-click="onSaveButtonClick();">
-      <span class="glyphicons glyphicons-floppy-save"></span>
-    </div>
-    <div class="new-frame-button" id="left-frame-button" ng-class="{disabled:(x === 0)}" ng-click="x=x-1;">
-      <span class="glyphicons glyphicons-left-arrow"></span>
-    </div>
-    <div class="new-frame-button" id="right-frame-button" ng-click="x=x+1;">
-      <span class="glyphicons glyphicons-circle-plus" ng-show="panels.length <= x + 1"></span>
-      <span class="glyphicons glyphicons-right-arrow" ng-show="panels.length > x + 1"></span>
-    </div>
-    <div class="new-frame-button" id="top-frame-button" ng-class="{disabled:(y === 0)}" ng-click="y=y-1;">
-      <span class="glyphicons glyphicons-up-arrow"></span>
-    </div>
-    <div class="new-frame-button" id="bottom-frame-button" ng-click="y=y+1;">
-      <span class="glyphicons glyphicons-circle-plus" ng-show="!panels[x] || panels[x].length <= y + 1"></span>
-      <span class="glyphicons glyphicons-down-arrow" ng-show="panels[x] && panels[x].length > y + 1"></span>
-    </div>
-    <section section ng-class="{'cursor-move':draggable, 'cursor-nw-resize':(resizeCorner === 'leftup'), 
-      'cursor-ne-resize':(resizeCorner === 'rightup'), 'cursor-sw-resize':(resizeCorner === 'leftbottom'), 
-      'cursor-se-resize':(resizeCorner === 'rightbottom') }">
-    </section>
-    <script type="text/ng-template" id="section-template">
+    <div class="rel-wrapper">
+      <div id="save-button" ng-click="onSaveButtonClick();">
+        <span class="glyphicons glyphicons-floppy-save"></span>
+      </div>
+      <div class="new-frame-button" id="left-frame-button" ng-class="{disabled:(x === 0)}" ng-click="x=x-1;">
+        <span class="glyphicons glyphicons-left-arrow"></span>
+      </div>
+      <div class="new-frame-button" id="right-frame-button" ng-click="x=x+1;">
+        <span class="glyphicons glyphicons-circle-plus" ng-show="panels.length <= x + 1"></span>
+        <span class="glyphicons glyphicons-right-arrow" ng-show="panels.length > x + 1"></span>
+      </div>
+      <div class="new-frame-button" id="top-frame-button" ng-class="{disabled:(y === 0)}" ng-click="y=y-1;">
+        <span class="glyphicons glyphicons-up-arrow"></span>
+      </div>
+      <div class="new-frame-button" id="bottom-frame-button" ng-click="y=y+1;">
+        <span class="glyphicons glyphicons-circle-plus" ng-show="!panels[x] || panels[x].length <= y + 1"></span>
+        <span class="glyphicons glyphicons-down-arrow" ng-show="panels[x] && panels[x].length > y + 1"></span>
+      </div>
       <section section ng-class="{'cursor-move':draggable, 'cursor-nw-resize':(resizeCorner === 'leftup'), 
-      'cursor-ne-resize':(resizeCorner === 'rightup'), 'cursor-sw-resize':(resizeCorner === 'leftbottom'), 
-      'cursor-se-resize':(resizeCorner === 'rightbottom') }">
+        'cursor-ne-resize':(resizeCorner === 'rightup'), 'cursor-sw-resize':(resizeCorner === 'leftbottom'), 
+        'cursor-se-resize':(resizeCorner === 'rightbottom') }">
       </section>
-    </script>
+      <script type="text/ng-template" id="section-template">
+        <section section ng-class="{'cursor-move':draggable, 'cursor-nw-resize':(resizeCorner === 'leftup'), 
+        'cursor-ne-resize':(resizeCorner === 'rightup'), 'cursor-sw-resize':(resizeCorner === 'leftbottom'), 
+        'cursor-se-resize':(resizeCorner === 'rightbottom') }">
+        </section>
+      </script>
+    </div>
   </div><!-- .section-wrapper -->
+  </div><!-- .m-cont -->
+  
+  <div class="footer">
+    
+  </div>
   <!-- In production use:
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
   -->

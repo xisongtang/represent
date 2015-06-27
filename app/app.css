@@ -2,16 +2,26 @@
 html, body, div, span, applet, object, iframe,h1, h2, h3, h4, h5, h6, p, blockquote, pre,a, abbr, acronym, address, big, cite, code,del, dfn, em, font, img, ins, kbd, q, s, samp,small, strike, strong, sub, sup, tt, var,b, u, i, center,dl, dt, dd, ol, ul, li,fieldset, form, label, legend,table,input caption, tbody, tfoot, thead, tr, th, td {margin: 0;padding: 0;border: 0;outline: 0;font-size: 100%;vertical-align: baseline;background: transparent;}body {line-height: 1;}ol, ul {list-style: none;}blockquote, q {quotes: none;}blockquote:before, blockquote:after,q:before, q:after {content: '';content: none;}/* remember to define focus styles! */:focus {outline: 0;}/* remember to highlight inserts somehow! */ins {text-decoration: none;}del {text-decoration: line-through;}/* tables still need 'cellspacing="0"' in the markup */table {border-collapse: collapse;border-spacing: 0;}
 
 body{
-	height: 100%;
-	overflow: hidden;
+	height: 1000px;
+	width: 100%;
+	min-width: 1350px;
 	font-family:'Microsoft YaHei',  SimHei, 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
+.m-cont{
+	width: 100%;
+	height: 840px;
+}
+.m-cont::after{
+	content: ".";
+	height: 0px;
+	visibility: hidden;
+	display: block;
+	clear: both;
+}
 #insert-col{
-	position: absolute;
-	left: 0;
-	top: 100px;
+	float: left;
 	width: 200px;
-	bottom: 0px;
+	height: 100%;
 	border-right: 1px solid #bebebe;
 	background-color: #e6e6e6;
 }
@@ -75,11 +85,7 @@ hr{
 }
 
 #tool-panel{
-	position: absolute;
-	z-index: 500;
-	top: 0px;
-	left: 0px;
-	right:0px;
+	width: 100%;
 	height: 100px;
 	background: #404040;
 }
@@ -230,15 +236,16 @@ hr{
 }
 
 .section-wrapper{
-	z-index: -1000;
-	position: absolute;
-	padding: 50px;
+	min-width: 1150px;
+	width: 100%;
+	height: 100%;
 	background: #eee;
-	overflow: auto;
-	left: 200px;
-	top: 100px;
-	right: 0px;
-	bottom: 0px;
+}
+
+.rel-wrapper{
+	position: relative;
+	padding: 70px 0;
+	margin-left: 200px;
 }
 
 section{
@@ -254,15 +261,15 @@ section{
 }
 
 #save-button{
-	position: fixed;
+	position: absolute;
 	height: 40px;
 	width: 40px;
-	left: 205px;
+	left: 5px;
 	bottom:5px;
 }
 
 .new-frame-button{
-	position: fixed;
+	position: absolute;
 	height: 40px;
 	width: 40px;
 }
@@ -286,22 +293,22 @@ section{
 }
 
 #left-frame-button{
-	left: 205px;
-	top: 50%;
+	left: 5px;
+	top: 400px;
 }
 
 #right-frame-button{
 	right: 5px;
-	top: 50%;
+	top: 400px;
 }
 
 #top-frame-button{
-	left: 55%;
-	top: 105px;
+	left: 50%;
+	top: 5px;
 }
 
 #bottom-frame-button{
-	left: 55%;
+	left: 50%;
 	bottom: 5px;
 }
 
@@ -314,7 +321,6 @@ section{
 	line-height: 1.5;
 	overflow:hidden;
 }
-
 
 section .select-helper{
 	background: rgba(0,0,0,0.1);
@@ -352,4 +358,10 @@ section img, section video, section audio{
 }
 .cursor-se-resize{
 	cursor: se-resize;
+}
+
+.footer{
+	width: 100%;
+	height: 60px;
+	background: #404040;
 }
