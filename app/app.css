@@ -267,6 +267,7 @@ section{
 	width: 40px;
 	left: 5px;
 	bottom:5px;
+	z-index: 10000;
 }
 
 .new-frame-button{
@@ -296,21 +297,25 @@ section{
 #left-frame-button{
 	left: 5px;
 	top: 400px;
+	z-index: 10000;
 }
 
 #right-frame-button{
 	right: 5px;
 	top: 400px;
+	z-index: 10000;
 }
 
 #top-frame-button{
 	left: 50%;
 	top: 5px;
+	z-index: 10000;
 }
 
 #bottom-frame-button{
 	left: 50%;
 	bottom: 5px;
+	z-index: 10000;
 }
 
 .editablediv{ 
@@ -328,7 +333,7 @@ section .select-helper{
 	position: absolute;
 	border: 1px solid gray;
 }
-section img, section video, section audio{
+section img, section video{
 	position: absolute;
 	box-sizing: content-box;
 	left: 0px;
@@ -342,6 +347,10 @@ section img, section video, section audio{
 	z-index: 1000;
 	background: rgba(255, 255, 255, 0.8);
 	border: 1px dotted black;
+}
+
+section img.selected, section video.selected{
+	z-index: 1000;
 }
 
 .cursor-move{

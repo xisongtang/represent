@@ -2,8 +2,9 @@
 'use strick';
 
 var controllers = angular.module('controllers', []);
-
+var a;
 controllers.controller('toolController', ['$scope', '$rootScope', function($scope, $rootScope){
+	a = $scope;
 	$scope.fontFamily = {
 		'css' : 'font-family',
 		'fixed' : false,
@@ -47,38 +48,42 @@ controllers.controller('toolController', ['$scope', '$rootScope', function($scop
 		'default': '0px',
 		'items' : ['0px', '1px', '2px', '3px', '4px', '5px']
 	};
-	$scope.singleAnimType = {
+	$scope.singleAnimateType = {
+		'css': 'singleAnimateType',
 		'fixed' : true,
 		'button' : false,
 		'title' : '动画效果',
-		'chosen' : 'None',
-		'default' : 'None',
-		'items' : ['None', 'Fade', 'Slide', 'Convex', 'Zoom']
+		'chosen' : 'slide',
+		'default' : 'slide',
+		'items' : ['fade', 'slide', 'convex', 'zoom', 'concave', 'default']
 	}
-	$scope.singleAnimTime = {
+	$scope.singleAnimateTime = {
+		'css': 'singleAnimateTime',
 		'fixed' : true,
 		'button' : false,
 		'title' : '动画时间',
-		'chosen' : '普通',
-		'default' : '普通',
-		'items' : ['缓慢', '普通', '快速']
+		'chosen' : 'default',
+		'default' : 'default',
+		'items' : ['slow', 'default', 'fast']
 	}
-	$scope.multiAnimType = {
+	$scope.multiAnimateType = {
+		'css': 'multiAnimateType',
 		'fixed' : true,
 		'button' : false,
 		'title' : '动画效果',
-		'chosen' : 'None',
-		'default' : 'None',
-		'items' : ['None', 'Fade', 'Slide', 'Convex', 'Zoom']
-	}
-	$scope.multiAnimTime = {
+		'chosen' : 'slide',
+		'default' : 'slide',
+		'items' : ['fade', 'slide', 'convex', 'zoom', 'concave', 'default']
+	};
+	$scope.multiAnimateTime = {
+		'css': 'multiAnimateTime',
 		'fixed' : true,
 		'button' : false,
 		'title' : '动画时间',
-		'chosen' : '普通',
-		'default' : '普通',
-		'items' : ['缓慢', '普通', '快速']
-	}
+		'chosen' : 'default',
+		'default' : 'default',
+		'items' : ['slow', 'default', 'fast']
+	};
 	$scope.bold = {'css':'font-weight','current':false, 'target':'bold', 'intarget':'normal', func:''};
 	$scope.italic = {'css':'font-style', 'current':false, 'target':'italic', 'intarget':'normal'};
 	$scope.underline = {'current':false, 'target':'underline', 'css':'text-decoration', 'intarget':'none'};
@@ -131,6 +136,10 @@ controllers.controller('toolController', ['$scope', '$rootScope', function($scop
 			$scope.bgcolor.current = angular.element(blocknode).css($scope.bgcolor.css)?angular.element(blocknode).css($scope.bgcolor.css):'white';
 		}
 	});
+	
+	$scope.$on("animationStyleChanged", function(e, key, value){
+		$scope[key].chosen = value;
+	});
 	//代码高亮
 	//引用
 	
@@ -159,12 +168,6 @@ controllers.controller('toolController', ['$scope', '$rootScope', function($scop
 	$scope.clearStyle = function(){
 		$rootScope.$broadcast("clearStyle");
 	};
-	$scope.changeFontSize = function(isLarger){
-		$rootScope.$broadcast("changeFontSize", isLarger);
-	};
-	$scope.preDefault = function($event){
-		$event.stopPropagation();
-	};
 }]);
 
 controllers.controller('insertController', ['$scope', '$rootScope', function($scope, $rootScope){
@@ -179,11 +182,11 @@ controllers.controller('insertController', ['$scope', '$rootScope', function($sc
 		});
 	});
 	$scope.imageButtonClick = function(){
-		$scope.inserting = 'image';
+		//$scope.inserting = 'image';
 		$rootScope.$broadcast('insertImage', "imgs/Hearthstone Screenshot 05-22-15 17.20.10.png");	
 	};
 	$scope.videoButtonClick = function(){
-		$scope.inserting = 'video';
+		//$scope.inserting = 'video';
 		$rootScope.$broadcast('insertVideo', "videos/123.avi");
 	};
 	

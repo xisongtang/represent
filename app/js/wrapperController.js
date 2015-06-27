@@ -1,10 +1,19 @@
 /* global controllers */
-controllers.controller("wrapperController", ['$templateRequest','$timeout','$templateCache', '$scope', '$compile', 
-	function($templateRequest, $timeout, $templateCache, $scope, $compile){
+controllers.controller("wrapperController", ['$rootScope', '$templateRequest','$timeout','$templateCache', '$scope', '$compile', 
+	function($rootScope, $templateRequest, $timeout, $templateCache, $scope, $compile){
   $templateRequest("template/index.html");
+	var transitionSpeed = "default", transition = "slide";
 	$scope.x = 0;
 	$scope.y = 0;
 	$scope.panels = [[$("section")]];
+	var changeAnimation = function(x, y){
+		var temp, elem = $scope.panels[x][y];
+		temp = elem.attr("data-transition")?elem.attr("data-transition"):"slide";
+		$rootScope.$broadcast("animationStyleChanged", "singleAnimateType", temp);
+		temp = elem.attr("data-transition-speed")?elem.attr("data-transition-speed"):"default";
+		$rootScope.$broadcast("animationStyleChanged", "singleAnimateTime", temp);
+	};
+	
 	//flag to tell whether y was changed by the change of x
 	var flag = false;
 	//when x is changed 
@@ -20,6 +29,7 @@ controllers.controller("wrapperController", ['$templateRequest','$timeout','$tem
 		}
 		else 
 			$scope.panels[nx][0].css("display", "block");
+		changeAnimation(nx, 0);
 		if ($scope.y != 0)
 			flag = true;
 		$timeout(function(){
@@ -42,6 +52,7 @@ controllers.controller("wrapperController", ['$templateRequest','$timeout','$tem
 		}
 		else
 			$scope.panels[$scope.x][ny].css("display", "block");
+		changeAnimation($scope.x, ny);
 	});
 	//save the presentation
 	$scope.onSaveButtonClick = function(){
@@ -68,8 +79,20 @@ controllers.controller("wrapperController", ['$templateRequest','$timeout','$tem
 		}
 		var str = $templateCache.get("template/index.html")[1];
 		str = str.replace("<!-- content -->", cont.html());
+		str = str.replace("<!-- transition -->", transition);
+		str = str.replace("<!-- transitionSpeed -->", transitionSpeed);
 		console.log(str);
 		var newWindow = window.open();
 		newWindow.document.write(str);
 	};
+	
+	$scope.$on("animStyleChanged", function(e, name, value){
+		if (name === "multiAnimateType"){
+			transition = value;
+			$rootScope.$broadcast("animationStyleChanged", name, value);
+		} else if (name === "multiAnimateTime"){
+			transitionSpeed = value;
+			$rootScope.$broadcast("animationStyleChanged", name, value);
+		}
+	});
 }]);

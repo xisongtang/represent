@@ -2,7 +2,10 @@ directives.directive('repEditable', ['$rootScope', function($rootScope){
 	
 	var begoffset, endoffset, 
 				begnode, endnode;
+	//the focus node
+	var thisnode = null;
 	
+	//get the span elements in the selection 
 	var getElemsBetween = function(){
 		var res, t, beg, end;
 		if (begnode === endnode && begoffset === endoffset){
@@ -37,6 +40,7 @@ directives.directive('repEditable', ['$rootScope', function($rootScope){
 		return res.slice(beg, end + 1);	
 	};
 	
+	//get the span paragraphs in the selection
 	var getParasBetween = function(){
 		var beg, end, res;
 		res = $(begnode).parent().parent().find("p");
@@ -45,8 +49,7 @@ directives.directive('repEditable', ['$rootScope', function($rootScope){
 		return res.slice(beg, end + 1);
 	};
 	
-	var thisnode = null;
-	
+	//make the focused node lose focus
 	$('.section-wrapper, section').bind('mousedown', function(e){
 		thisnode = null;
 		begnode = endnode = null;
@@ -122,11 +125,12 @@ directives.directive('repEditable', ['$rootScope', function($rootScope){
 	});
 	
 	$rootScope.$watch('begnode', function(newValue, oldValue){
-		$rootScope.$broadcast("selectionStyleChanged", begnode, begnode?begnode.parentNode:null, begnode?begnode.parentNode.parentNode:null);
+		$rootScope.$broadcast("selectionStyleChanged", begnode, begnode?begnode.parentNode:null, thisnode);
 	});
 	$rootScope.$watch('thisnode', function(newValue, oldValue){
 		$rootScope.$broadcast("thisnodeChanged", newValue);
 	});
+	
 	return {
 		restrict: 'A',
 		transclude: true,
@@ -141,9 +145,13 @@ directives.directive('repEditable', ['$rootScope', function($rootScope){
 			});
 			scope.current = true;
 			scope.selected = false;
+			
 			scope.$on('thisnodeChanged', function(e, thisnode){
 				scope.current = element[0] === thisnode;
 			});
+			
+			//make this element to be the fucosed one when mousedown,
+			//and prevent the wrapper event
 			$(element[0]).bind('mousedown', function(e){
 				if ($rootScope.draggable || $rootScope.resizable){
 					e.preventDefault();
@@ -157,6 +165,10 @@ directives.directive('repEditable', ['$rootScope', function($rootScope){
 					$rootScope.thisnode = element[0];
 				});
 				ee.stopPropagation();
+			});
+			$(element[0]).bind('mousemove', function(e){
+				if (thisnode != null)
+					e.stopPropagation();
 			});
 			scope.$on("fontStyleChanged", function(e, key, value){
 				if (element[0] !== thisnode)
@@ -175,8 +187,8 @@ directives.directive('repEditable', ['$rootScope', function($rootScope){
 				if (element[0] !== thisnode)
 					return;
 					
-				$(begnode).parent().parent().css(key, value);
-				$rootScope.$broadcast("selectionStyleChanged", begnode, begnode?begnode.parentNode:null, begnode?begnode.parentNode.parentNode:null);
+				$(thisnode).css(key, value);
+				$rootScope.$broadcast("selectionStyleChanged", begnode, begnode?begnode.parentNode:null, thisnode);
 			});
 			scope.$on("clearStyle", function(e){
 				if (element[0] !== thisnode)

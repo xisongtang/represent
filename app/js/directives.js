@@ -13,8 +13,10 @@ directives.directive('repDropdown', ['$rootScope', function($rootScope){
 			$scope.chooseStyle = function(ff){
 				if ($scope.attr.css === 'font-size' || $scope.attr.css === 'font-family'){
 					$rootScope.$broadcast("fontStyleChanged", $scope.attr.css, ff);
-				} else {
+				} else if ($scope.attr.css === 'line-height' || $scope.attr.css === 'letter-spacing'){
 					$rootScope.$broadcast("paraStyleChanged", $scope.attr.css, ff);
+				} else {
+					$rootScope.$broadcast("animStyleChanged", $scope.attr.css, ff);
 				}
 			};
 		},
@@ -32,6 +34,7 @@ directives.directive('repNodefault', ['$rootScope', function($rootScope){
 			console.log('repNodefault');
 			elem.on('mousedown mousemove', function(e){
 				e.preventDefault();
+				return false;
 			});
 		}
 	};
@@ -85,12 +88,20 @@ directives.directive('repImg', ['$rootScope', function($rootScope){
 					e.preventDefault();
 					return;
 				}
+				$rootScope.selected = $(elem);
+				$rootScope.$broadcast("selectedEditablesChanged");
+				$rootScope.$broadcast("selectionStyleChanged", null, null, elem[0]);
+				$rootScope.$apply(function(){
+					$rootScope.thisnode = elem[0];
+				});
 				e.stopPropagation();
 			});
-			elem.bind('click', function(e){
-				e.stopPropagation();
-				$rootScope.selected = $(elem[0]);
-				$rootScope.$broadcast('selectedEditablesChanged');
+			scope.$on("blockStyleChanged", function(e, key, value){
+				if (elem[0] !== $rootScope.thisnode)
+					return;
+					
+				$(elem[0]).css(key, value);
+				$rootScope.$broadcast("selectionStyleChanged", null, null, elem[0]);
 			});
 		},
 		replace: true,
@@ -112,12 +123,20 @@ directives.directive('repVideo', ['$rootScope', function($rootScope){
 					e.preventDefault();
 					return;
 				}
+				$rootScope.selected = $(elem);
+				$rootScope.$broadcast("selectedEditablesChanged");
+				$rootScope.$broadcast("selectionStyleChanged", null, null, elem[0]);
+				$rootScope.$apply(function(){
+					$rootScope.thisnode = elem[0];
+				});
 				e.stopPropagation();
 			});
-			elem.bind('click', function(e){
-				e.stopPropagation();
-				$rootScope.selected = $(elem[0]);
-				$rootScope.$broadcast('selectedEditablesChanged');
+			scope.$on("blockStyleChanged", function(e, key, value){
+				if (elem[0] !== $rootScope.thisnode)
+					return;
+					
+				$(elem[0]).css(key, value);
+				$rootScope.$broadcast("selectionStyleChanged", null, null, elem[0]);
 			});
 		},
 		replace:true,

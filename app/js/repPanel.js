@@ -14,7 +14,7 @@ function registerCreateDiv(elem, destroy, cond, createfunc, changefunc, mdfunc, 
 	wrapper.bind('mousemove', function(e){
 		e.originalEvent.stopPropagation();
 		if (begoffsetX === null || begoffsetY === null){
-			return false;	
+			return false;
 		}
 		var startX, startY, width, height, endX, endY;
 		
@@ -244,6 +244,17 @@ directives.directive('section', ['$compile','$rootScope', function($compile, sco
 				console.log("insertBackgroundImage");
 				if ($scope.x == $scope.$parent.x && $scope.y == $scope.$parent.y)
 					$(elem).css("background", "url(" + image + ") 0 0 /100% 100% no-repeat");
+			});
+			scope.$on("animStyleChanged", function(e, name, value){
+				if ($scope.x == $scope.$parent.x && $scope.y == $scope.$parent.y){
+					if (name === "singleAnimateType"){
+						$(elem).attr("data-transition", value);
+						scope.$broadcast("animationStyleChanged", name, value);
+					} else if (name === "singleAnimateTime"){
+						$(elem).attr("data-transition-speed", value);
+						scope.$broadcast("animationStyleChanged", name, value);
+					}
+				}
 			});
 		},
 	};
