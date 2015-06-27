@@ -253,6 +253,14 @@ section{
 	background-color: #fff;
 }
 
+#save-button{
+	position: fixed;
+	height: 40px;
+	width: 40px;
+	left: 205px;
+	bottom:5px;
+}
+
 .new-frame-button{
 	position: fixed;
 	height: 40px;
@@ -261,7 +269,7 @@ section{
 .new-frame-button.disabled{
 	pointer-events: none
 }
-.new-frame-button span.glyphicons{
+.new-frame-button span.glyphicons, #save-button span.glyphicons{
 	cursor: pointer;
 	font-size: 40px;
 	color: #6f5499;

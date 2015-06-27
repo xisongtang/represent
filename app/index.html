@@ -13,7 +13,8 @@
   <link rel="stylesheet" href="bower_components/bootstrap/dist/css/glyphicons.css">
   <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
   <link rel="stylesheet" href="app.css">
-  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular/angular.min.js"></script>
+  <script src="bower_components/angular-route/angular-route.js"></script>
   <script src="js/controllers.js"></script>
   <script src="js/directives.js"></script>
   <script src="js/repPanel.js"></script>
@@ -125,6 +126,9 @@
     </ul>
   </div>
   <div class="section-wrapper" ng-controller="wrapperController">
+    <div id="save-button" ng-click="onSaveButtonClick();">
+      <span class="glyphicons glyphicons-floppy-save"></span>
+    </div>
     <div class="new-frame-button" id="left-frame-button" ng-class="{disabled:(x === 0)}" ng-click="x=x-1;">
       <span class="glyphicons glyphicons-left-arrow"></span>
     </div>
@@ -156,7 +160,6 @@
   <script src="bower_components/jquery/dist/jquery.js"></script>
   <script src="bower_components/jquery/dist/jquery-ui.js"></script>
   <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
-  <script src="bower_components/angular-route/angular-route.js"></script>
   <script src="js/app.js"></script>
   <script src="components/version/version.js"></script>
   <script src="components/version/version-directive.js"></script>
