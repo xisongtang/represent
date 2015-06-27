@@ -206,9 +206,6 @@ hr{
 	vertical-align: middle;
 	margin-right: 5px;
 }
-.tool-row .combine>div:hover{
-	
-}
 
 .btn.active{
 	box-shadow: inset 0 3px 5px rgba(0, 0, 0, .5);
@@ -232,7 +229,7 @@ hr{
 	padding-right: 5px;
 }
 
-.panel-wrapper{
+.section-wrapper{
 	z-index: -1000;
 	position: absolute;
 	padding: 50px;
@@ -244,7 +241,7 @@ hr{
 	bottom: 0px;
 }
 
-panel{
+section{
 	display: block;
 	position: relative;
 	margin: 0 auto;
@@ -261,6 +258,9 @@ panel{
 	height: 40px;
 	width: 40px;
 }
+.new-frame-button.disabled{
+	pointer-events: none
+}
 .new-frame-button span.glyphicons{
 	cursor: pointer;
 	font-size: 40px;
@@ -268,6 +268,13 @@ panel{
 	filter:alpha(opacity=80);
 	-moz-opacity:0.8;
 	opacity:0.8;
+}
+
+.new-frame-button.disabled span.glyphicons{
+	filter:alpha(opacity=30);
+	-moz-opacity:0.3;
+	opacity:0.3;
+	cursor: auto;
 }
 
 #left-frame-button{
@@ -301,12 +308,12 @@ panel{
 }
 
 
-panel .select-helper{
+section .select-helper{
 	background: rgba(0,0,0,0.1);
 	position: absolute;
 	border: 1px solid gray;
 }
-panel img, panel video, panel audio{
+section img, section video, section audio{
 	position: absolute;
 	box-sizing: content-box;
 	left: 0px;

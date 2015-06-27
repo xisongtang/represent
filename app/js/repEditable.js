@@ -47,7 +47,7 @@ directives.directive('repEditable', ['$rootScope', function($rootScope){
 	
 	var thisnode = null;
 	
-	$('.panel-wrapper, panel').bind('mousedown', function(e){
+	$('.section-wrapper, section').bind('mousedown', function(e){
 		thisnode = null;
 		begnode = endnode = null;
 		$rootScope.$apply(function(){
@@ -78,7 +78,7 @@ directives.directive('repEditable', ['$rootScope', function($rootScope){
 		setTimeout(function(){
 			var offset0 = sel.anchorOffset,	node0 = $(sel.anchorNode).parent(), pnode0 = node0.parent(),
 				offset1 = sel.focusOffset, node1 = $(sel.focusNode).parent(), pnode1 = node1.parent(), 
-				panel = $(editdiv), ind0, pind0, ind1, pind1;
+				section = $(editdiv), ind0, pind0, ind1, pind1;
 			
 			if (sel.anchorNode.nodeName == 'P'){
 				node0 = pnode0 = $(sel.anchorNode);
@@ -100,8 +100,8 @@ directives.directive('repEditable', ['$rootScope', function($rootScope){
 			}
 			ind1 = pnode1.children().index(node1); 
 			
-			pind0 = panel.children().index(pnode0); 
-			pind1 = panel.children().index(pnode1); 
+			pind0 = section.children().index(pnode0); 
+			pind1 = section.children().index(pnode1); 
 			if (pind0 * hashmul * hashmul + ind0 * hashmul + offset0
 				<= pind1 * hashmul * hashmul + ind1 * hashmul + offset1){
 				begnode = pnode0.children()[ind0];
@@ -134,6 +134,7 @@ directives.directive('repEditable', ['$rootScope', function($rootScope){
 			
 		},
 		link: function(scope, element, attrs){
+			console.log("repEditable");
 			thisnode = element[0];
 			$rootScope.$apply(function(){
 				$rootScope.thisnode = element[0];

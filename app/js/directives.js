@@ -9,6 +9,7 @@ directives.directive('repDropdown', ['$rootScope', function($rootScope){
 			'attr':'=repDropdown'
 		},
 		controller:function($scope){
+			console.log("repDropdown");
 			$scope.chooseStyle = function(ff){
 				if ($scope.attr.css === 'font-size' || $scope.attr.css === 'font-family'){
 					$rootScope.$broadcast("fontStyleChanged", $scope.attr.css, ff);
@@ -28,6 +29,7 @@ directives.directive('repNodefault', ['$rootScope', function($rootScope){
 	return {
 		restrict: 'A',
 		link: function(scope, elem, attrs){
+			console.log('repNodefault');
 			elem.on('mousedown mousemove', function(e){
 				e.preventDefault();
 			});
@@ -41,6 +43,7 @@ directives.directive('selectable', ['$rootScope', function($rootScope){
 	return {
 		restrict:"A",
 		link:function(scope, element, attr){
+			console.log('selectable')
 			scope.$on("selectRectangleChanged", function(e, left, top, width, height){
 				var elem = $(element[0]);
 				var y = +elem.css("top").slice(0, -2), x = +elem.css("left").slice(0, -2),
@@ -75,6 +78,7 @@ directives.directive('repImg', ['$rootScope', function($rootScope){
 		scope: {
 		},
 		link: function(scope, elem, attrs){
+			console.log('repImg');
 			elem = $(elem[0]);
 			elem.bind('mousedown', function(e){
 				if ($rootScope.draggable || $rootScope.resizable){
@@ -101,6 +105,7 @@ directives.directive('repVideo', ['$rootScope', function($rootScope){
 		scope: {
 		},
 		link: function(scope, elem, attrs){
+			console.log('repVideo');
 			elem = $(elem[0]);
 			elem.bind('mousedown', function(e){
 				if ($rootScope.draggable || $rootScope.resizable){

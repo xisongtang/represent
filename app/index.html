@@ -17,7 +17,8 @@
   <script src="js/controllers.js"></script>
   <script src="js/directives.js"></script>
   <script src="js/repPanel.js"></script>
-  <script src="js/repEditable.js"></script>    
+  <script src="js/repEditable.js"></script>
+  <script src="js/wrapperController.js"></script>        
 </head>
 <body rep-nodefault>
   <!--[if lt IE 7]>
@@ -123,27 +124,32 @@
       <li ng-click="bgMusicButtonClick();" ><span class="glyphicons glyphicons-music" aria-hidden="true"></span><span class="insert-col-text">背景音频</span></li>
     </ul>
   </div>
-  <div class="panel-wrapper">
-    <div class="new-frame-button" id="left-frame-button">
-     <span class="glyphicons glyphicons-circle-plus"></span>
+  <div class="section-wrapper" ng-controller="wrapperController">
+    <div class="new-frame-button" id="left-frame-button" ng-class="{disabled:(x === 0)}" ng-click="x=x-1;">
+      <span class="glyphicons glyphicons-left-arrow"></span>
     </div>
-    <div class="new-frame-button" id="right-frame-button">
-     <span class="glyphicons glyphicons-circle-plus"></span>
+    <div class="new-frame-button" id="right-frame-button" ng-click="x=x+1;">
+      <span class="glyphicons glyphicons-circle-plus" ng-show="panels.length <= x + 1"></span>
+      <span class="glyphicons glyphicons-right-arrow" ng-show="panels.length > x + 1"></span>
     </div>
-    <div class="new-frame-button" id="top-frame-button">
-     <span class="glyphicons glyphicons-circle-plus"></span>
+    <div class="new-frame-button" id="top-frame-button" ng-class="{disabled:(y === 0)}" ng-click="y=y-1;">
+      <span class="glyphicons glyphicons-up-arrow"></span>
     </div>
-    <div class="new-frame-button" id="bottom-frame-button">
-     <span class="glyphicons glyphicons-circle-plus"></span>
+    <div class="new-frame-button" id="bottom-frame-button" ng-click="y=y+1;">
+      <span class="glyphicons glyphicons-circle-plus" ng-show="!panels[x] || panels[x].length <= y + 1"></span>
+      <span class="glyphicons glyphicons-down-arrow" ng-show="panels[x] && panels[x].length > y + 1"></span>
     </div>
-    <panel ng-class="{'cursor-move':draggable, 'cursor-nw-resize':(resizeCorner === 'leftup'), 
+    <section section ng-class="{'cursor-move':draggable, 'cursor-nw-resize':(resizeCorner === 'leftup'), 
       'cursor-ne-resize':(resizeCorner === 'rightup'), 'cursor-sw-resize':(resizeCorner === 'leftbottom'), 
       'cursor-se-resize':(resizeCorner === 'rightbottom') }">
-    </panel>
-  </div><!-- .panel-wrapper -->
-  <iframe src="" frameborder="0" style="display:none">
-    
-  </iframe>
+    </section>
+    <script type="text/ng-template" id="section-template">
+      <section section ng-class="{'cursor-move':draggable, 'cursor-nw-resize':(resizeCorner === 'leftup'), 
+      'cursor-ne-resize':(resizeCorner === 'rightup'), 'cursor-sw-resize':(resizeCorner === 'leftbottom'), 
+      'cursor-se-resize':(resizeCorner === 'rightbottom') }">
+      </section>
+    </script>
+  </div><!-- .section-wrapper -->
   <!-- In production use:
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
   -->

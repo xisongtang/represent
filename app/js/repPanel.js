@@ -1,8 +1,14 @@
-
-directives.directive('panel', ['$compile', function($compile){
+directives.directive('section', ['$compile','$rootScope', function($compile, scope){
 	return {
-		restrict: 'E',
-		link:function(scope, elem, attrs){
+		restrict: 'A',
+		scope:{
+			
+		},
+		link:function($scope, elem, attrs){
+			console.log("section");
+			console.log($scope);
+			$scope.x = $scope.$parent.x;
+			$scope.y = $scope.$parent.y;
 			var dragging = false, resizing = false, dragbegX, dragbegY, selected, element, range = 6;
 			scope.draggable = false;
 			scope.resizable = false;
@@ -201,30 +207,38 @@ directives.directive('panel', ['$compile', function($compile){
 			
 			scope.insertingText = false;
 			scope.$on("insertText", function(){
-				scope.insertingText = true;
+				if ($scope.x == $scope.$parent.x && $scope.y == $scope.$parent.y)
+					scope.insertingText = true;
 			});
 			scope.$on("insertImage", function(e, image){
 				console.log("insertImage");
-				$(elem).append($compile("<img rep-img src='" + image + "'/>")(scope));
+				if ($scope.x == $scope.$parent.x && $scope.y == $scope.$parent.y)
+					$(elem).append($compile("<img rep-img src='" + image + "'/>")(scope));
 			});
 			scope.$on("insertVideo", function(e, video){
 				console.log("insertVideo");
-				$(elem).append($compile("<video rep-video src='" + video + "' controls></video>")(scope));
+				if ($scope.x == $scope.$parent.x && $scope.y == $scope.$parent.y)
+					$(elem).append($compile("<video rep-video src='" + video + "' controls></video>")(scope));
 			});
 			
 			scope.$on("insertBackgroundMusic", function(e, music){
 				console.log("insertBackgroundMusic");
-				$(elem).find("audio").remove();
-				$(elem).append("<audio autoplay src='" + music + "' controls style='display:none'></audio>");
+				if ($scope.x == $scope.$parent.x && $scope.y == $scope.$parent.y){
+					$(elem).find("audio").remove();
+					$(elem).append("<audio autoplay src='" + music + "' controls style='display:none'></audio>");
+				}
 			});
 			scope.$on("insertBackgroundColor", function(e, color){
 				console.log("insertBackgroundColor");
-				$(elem).css("background-color", color);
+				if ($scope.x == $scope.$parent.x && $scope.y == $scope.$parent.y){
+					$(elem).css("background-color", color);	
+				}
 			});
 			scope.$on("insertBackgroundImage", function(e, image){
 				console.log("insertBackgroundImage");
-				$(elem).css("background", "url(" + image + ") 0 0 /100% 100% no-repeat");
+				if ($scope.x == $scope.$parent.x && $scope.y == $scope.$parent.y)
+					$(elem).css("background", "url(" + image + ") 0 0 /100% 100% no-repeat");
 			});
-		}
+		},
 	};
 }]);
