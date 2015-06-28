@@ -191,7 +191,7 @@ controllers.controller("wrapperController", ['$rootScope', '$templateRequest','$
 		null, null, 
 		function(){
 			$rootScope.insertingText = false;
-			$rootScope.$broadcast("insertTextEnd");
+			$rootScope.$broadcast("insertEnd", "text");
 		}
 	);
 	insertfuncs.changeElem($scope.panels[0][0]);
@@ -276,4 +276,7 @@ controllers.controller("wrapperController", ['$rootScope', '$templateRequest','$
 			$rootScope.$broadcast("animationStyleChanged", name, value);
 		}
 	});
+	
+	//save the presentation
+	$scope.onPreview
 }]);

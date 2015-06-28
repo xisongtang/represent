@@ -127,31 +127,38 @@ directives.directive('section', ['$compile','$rootScope', function($compile, sco
 			});
 			scope.$on("insertImage", function(e, image){
 				console.log("insertImage");
-				if ($scope.lx == $scope.$parent.x && $scope.ly == $scope.$parent.y)
+				if ($scope.lx == $scope.$parent.x && $scope.ly == $scope.$parent.y){
 					$(elem).append($compile("<img rep-img src='" + image + "'/>")(scope));
+					scope.$broadcast("insertEnd", "image");
+				}
 			});
 			scope.$on("insertVideo", function(e, video){
 				console.log("insertVideo");
-				if ($scope.lx == $scope.$parent.x && $scope.ly == $scope.$parent.y)
+				if ($scope.lx == $scope.$parent.x && $scope.ly == $scope.$parent.y){
 					$(elem).append($compile("<video rep-video src='" + video + "' controls></video>")(scope));
+					scope.$broadcast("insertEnd", "video");
+				}	
 			});
 			
 			scope.$on("insertBackgroundMusic", function(e, music){
 				console.log("insertBackgroundMusic");
 				if ($scope.lx == $scope.$parent.x && $scope.ly == $scope.$parent.y){
 					$(elem).attr("data-background-audio", music);
+					scope.$broadcast("insertEnd", "bgmusic");
 				}
 			});
 			scope.$on("insertBackgroundColor", function(e, color){
 				console.log("insertBackgroundColor");
 				if ($scope.lx == $scope.$parent.x && $scope.ly == $scope.$parent.y){
 					$(elem).css("background-color", color);	
+					scope.$broadcast("insertEnd", "bgcolor");
 				}
 			});
 			scope.$on("insertBackgroundImage", function(e, image){
 				console.log("insertBackgroundImage");
 				if ($scope.lx == $scope.$parent.x && $scope.ly == $scope.$parent.y)
 					$(elem).css("background", "url(" + image + ") 0 0 /100% 100% no-repeat");
+					scope.$broadcast("insertEnd", "bgimage");
 			});
 			scope.$on("animStyleChanged", function(e, name, value){
 				if ($scope.lx == $scope.$parent.x && $scope.ly == $scope.$parent.y){

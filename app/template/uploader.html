@@ -2,6 +2,7 @@
 	<style>
 		.overlay{
 			font-family: "Helvetica Neue", 'Microsoft YaHei', Helvetica, Arial, sans-serif;
+			z-index: 20000;
 			display:none;
 			position: fixed;
 			top: 0px;
@@ -64,7 +65,7 @@
 	<div  class="upload-div">
 		<form id="form-upload" action="uploader.html" method="post">
 			<label for="in-fileupload" class="btn btn-info">更改文件</label>
-			<input type="file" id="in-fileupload">
+			<input type="file" id="in-fileupload" accept="{{accept}}">
 			<span id="filename"></span>
 			<input type="submit" class="btn btn-info" value="上传">
 		</form>

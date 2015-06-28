@@ -267,6 +267,15 @@ section{
 	background-color: #fff;
 }
 
+#preview-button{
+	position: absolute;
+	height: 40px;
+	width: 40px;
+	left: 55px;
+	bottom:5px;
+	z-index: 10000;
+}
+
 #save-button{
 	position: absolute;
 	height: 40px;
@@ -284,7 +293,7 @@ section{
 .new-frame-button.disabled{
 	pointer-events: none
 }
-.new-frame-button span.glyphicons, #save-button span.glyphicons{
+.new-frame-button span.glyphicons, #save-button span.glyphicons, #preview-button span.glyphicons{
 	cursor: pointer;
 	font-size: 40px;
 	color: #6f5499;

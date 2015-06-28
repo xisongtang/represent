@@ -170,36 +170,18 @@ controllers.controller('toolController', ['$scope', '$rootScope', function($scop
 	};
 }]);
 
-controllers.controller('insertController', ['$scope', '$rootScope', function($scope, $rootScope){
+controllers.controller('insertController', ['$scope', '$rootScope', '$timeout', function($scope, $rootScope, $timeout){
 	$scope.inserting = null;
 	$scope.textButtonClick = function(){
 		$scope.inserting = 'text';
 		$rootScope.$broadcast('insertText');
 	};
-	$scope.$on("insertTextEnd", function(){
-		$scope.$apply(function(){
-			$scope.inserting = null;
-		});
+	$scope.$on("insertEnd", function(e, t){
+		$scope.inserting = null;
+		$scope.$digest();
 	});
-	$scope.imageButtonClick = function(){
-		//$scope.inserting = 'image';
-		$rootScope.$broadcast('insertImage', "imgs/Hearthstone Screenshot 05-22-15 17.20.10.png");	
-	};
-	$scope.videoButtonClick = function(){
-		//$scope.inserting = 'video';
-		$rootScope.$broadcast('insertVideo', "videos/123.avi");
-	};
-	
 	$scope.bgColorButtonClick = function(color){
 		$scope.inserting = null;
 		$rootScope.$broadcast('insertBackgroundColor', color);
-	};
-	$scope.bgImageButtonClick = function(){
-		$scope.inserting = null;
-		$rootScope.$broadcast('insertBackgroundImage', "imgs/screenshot.png");	
-	};
-	$scope.bgMusicButtonClick = function(){
-		$scope.inserting = null;
-		$rootScope.$broadcast('insertBackgroundMusic', "mp3/光るなら.mp3");
 	};
 }]);

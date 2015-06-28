@@ -118,13 +118,15 @@
     <div class="insert-col-header"><h2>插入</h2></div>
     <ul>
       <li ng-class="{active:(inserting === 'text')}" ng-click="textButtonClick();" ><span class="glyphicons glyphicons-list" aria-hidden="true"></span><span class="insert-col-text">文本框</span></li>
-      <li ng-class="{active:(inserting === 'image')}"><label for="in-fileupload"><span class="glyphicons glyphicons-picture" aria-hidden="true"></span><span class="insert-col-text">图片</span></label></li>
-      <li ng-class="{active:(inserting === 'video')}"><label for="in-fileupload"><span class="glyphicons glyphicons-film" aria-hidden="true"></span><span class="insert-col-text">视频</span></label></li>
+      <li ng-class="{active:(inserting === 'image')}" ng-click="accept='image/*';inserting='image'"><label for="in-fileupload"><span class="glyphicons glyphicons-picture" aria-hidden="true"></span><span class="insert-col-text">图片</span></label></li>
+      <li ng-class="{active:(inserting === 'video')}" ng-click="accept='video/*';inserting='video'"><label for="in-fileupload"><span class="glyphicons glyphicons-film" aria-hidden="true"></span><span class="insert-col-text">视频</span></label></li>
       <hr>
       <li ><label for="panel-bgcolor-picker"><span class="glyphicons glyphicons-bring-forward" aria-hidden="true"></span><span class="insert-col-text">背景颜色</label><input type="color" ng-model="bgcolor" id="panel-bgcolor-picker" ng-change="bgColorButtonClick(bgcolor);"/></span></li>
-      <li ><label for="in-fileupload"><span class="glyphicons glyphicons-picture" aria-hidden="true"></span><span class="insert-col-text">背景图片</span></label></li>
-      <li ><label for="in-fileupload"><span class="glyphicons glyphicons-music" aria-hidden="true"></span><span class="insert-col-text">背景音频</span></label></li>
+      <li ><label for="in-fileupload" ng-click="accept='video/*';inserting='bgimage'"><span class="glyphicons glyphicons-picture" aria-hidden="true"></span><span class="insert-col-text">背景图片</span></label></li>
+      <li ><label for="in-fileupload" ng-click="accept='audio/*';inserting='bgmusic'"><span class="glyphicons glyphicons-music" aria-hidden="true"></span><span class="insert-col-text">背景音频</span></label></li>
     </ul>
+    <div rep-uploader>
+  </div>
   </div>
   <div class="section-wrapper" >
     <div class="rel-wrapper" ng-controller="wrapperController" >
@@ -132,7 +134,10 @@
         <div>x : <span ng-bind="x + 1"></span></div>
         <div>y : <span ng-bind="y + 1"></span></div>
       </div>
-      <div id="save-button" ng-click="onPreviewButtonClick();" rep-nodefault title="预览">
+      <div id="save-button" ng-click="onSaveButtonClick();" rep-nodefault title="保存">
+        <span class="glyphicons glyphicons-floppy-save"></span>
+      </div>
+      <div id="preview-button" ng-click="onPreviewButtonClick();" rep-nodefault title="预览">
         <span class="glyphicons glyphicons-show-big-thumbnails"></span>
       </div>
       <div class="new-frame-button" id="left-frame-button" ng-class="{disabled:(x === 0)}" ng-click="leftButton()" rep-nodefault>
@@ -165,8 +170,6 @@
   </div><!-- .m-cont -->
   
   <div class="footer" rep-nodefault>
-  </div>
-  <div rep-uploader>
   </div>
   <script src="bower_components/jquery/dist/jquery.js"></script>
   <script src="js/uploader.js"></script>

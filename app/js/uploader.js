@@ -1,7 +1,17 @@
 directives.directive('repUploader', ['$rootScope', function($rootScope){
+	var  intervalid = null;
+	function cancel(){
+		$(".overlay").fadeOut(500);
+		setTimeout(function(){
+			$("#in-fileupload").val("");
+			$("#progress-bar").css("width", 0);
+			$("success-info").hide(0);
+			clearInterval(intervalid);
+		}, 500);
+	}
+		
 	var uploaderInit = function (setting){
-		var finput = $("#in-fileupload"), form = $("#form-upload"), 
-			overlay = $(".overlay"), data;
+		var finput = $("#in-fileupload"), form = $("#form-upload"), data;
 		finput.change(function(e){
 			$("#filename").text(finput[0].files[0].name);
 			$("#filename").attr("title", finput[0].files[0].name);
@@ -21,7 +31,7 @@ directives.directive('repUploader', ['$rootScope', function($rootScope){
 			data.append("file", finput[0].files[0]);
 			if (setting.appendData)
 				setting.appendData(data);
-			var progress = 0, intervalid = null;
+			var progress = 0;
 			intervalid = setInterval(function(){
 				$("#progress-bar").css("width", progress * 100 + "%");
 			}, 200);
@@ -39,9 +49,8 @@ directives.directive('repUploader', ['$rootScope', function($rootScope){
 				$("#progress-bar").css("width", progress * 100 + "%");
 				$("#success-info").text("上传成功").show(0);
 				setTimeout(function(){
-					finput.val("");
-				},500
-				);
+					setting.onload(xhr.responseText);
+				},500);
 				
 			});
 			xhr.upload.addEventListener("progress", function(evt){
@@ -52,15 +61,15 @@ directives.directive('repUploader', ['$rootScope', function($rootScope){
 		});
 		
 		$(".overlay").click(function(e){
-			$(this).fadeOut(500);
-			finput.val("");
+			cancel();
+			$rootScope.$broadcast("insertEnd", "*");
 		});
 		$(".upload-div").click(function(e){
 			e.stopPropagation();
 		});
 		$("#cancel-btn").click(function(e){
-			$(".overlay").fadeOut(500);
-			finput.val("");
+			cancel();
+			$rootScope.$broadcast("insertEnd", "*");
 		});
 		
 		
@@ -85,12 +94,25 @@ directives.directive('repUploader', ['$rootScope', function($rootScope){
 	};
 	return{
 		restrict:'A',
-		scope: true,
 		link: function(scope, elem, attrs){
 			uploaderInit({
-				url:"uploader.html",
-				onload:function(){},
+				url:"/server/upload.php",
+				onload:function(data){
+					data = JSON.parse(data);
+					console.log(scope);
+					if (scope.inserting === 'image')
+						$rootScope.$broadcast("insertImage", data);
+					else if (scope.inserting === 'video')
+						$rootScope.$broadcast("insertVideo", data);
+					else if (scope.inserting === 'bgimage')
+						$rootScope.$broadcast("insertBackgroundImage", data);
+					else 
+						$rootScope.$broadcast("insertBackgroundMusic", data);
+				},
 				appendData:function(){}
+			});
+			scope.$on("insertEnd", function(){
+				cancel();
 			});
 		},
 		replace:true,
