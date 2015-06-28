@@ -35,7 +35,8 @@
 	</head>
 
 	<body>
-
+		
+		<audio src="" autoplay></audio>
 		<div class="reveal">
 			<div class="slides">
 				<!-- content -->
@@ -65,7 +66,13 @@
 					{ src: 'template/plugin/notes/notes.js', async: true }
 				]
 			});
-
+			var audio = document.getElementsByTagName("audio")[0];
+			function bindMusic(e){
+    		var src = e.currentSlide.attributes['data-background-audio'];
+					audio.src = src?src.value:"#";
+			}
+			Reveal.addEventListener( 'ready', bindMusic);
+			Reveal.addEventListener( 'slidechanged', bindMusic);
 		</script>
 
 	</body>

@@ -116,7 +116,6 @@ directives.directive('repVideo', ['$rootScope', function($rootScope){
 		scope: {
 		},
 		link: function(scope, elem, attrs){
-			console.log('repVideo');
 			elem = $(elem[0]);
 			elem.bind('mousedown', function(e){
 				if ($rootScope.draggable || $rootScope.resizable){
