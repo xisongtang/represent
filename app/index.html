@@ -118,12 +118,12 @@
     <div class="insert-col-header"><h2>插入</h2></div>
     <ul>
       <li ng-class="{active:(inserting === 'text')}" ng-click="textButtonClick();" ><span class="glyphicons glyphicons-list" aria-hidden="true"></span><span class="insert-col-text">文本框</span></li>
-      <li ng-class="{active:(inserting === 'image')}" ng-click="imageButtonClick();" ><span class="glyphicons glyphicons-picture" aria-hidden="true"></span><span class="insert-col-text">图片</span></li>
-      <li ng-class="{active:(inserting === 'video')}" ng-click="videoButtonClick();" ><span class="glyphicons glyphicons-film" aria-hidden="true"></span><span class="insert-col-text">视频</span></li>
+      <li ng-class="{active:(inserting === 'image')}"><label for="in-fileupload"><span class="glyphicons glyphicons-picture" aria-hidden="true"></span><span class="insert-col-text">图片</span></label></li>
+      <li ng-class="{active:(inserting === 'video')}"><label for="in-fileupload"><span class="glyphicons glyphicons-film" aria-hidden="true"></span><span class="insert-col-text">视频</span></label></li>
       <hr>
       <li ><label for="panel-bgcolor-picker"><span class="glyphicons glyphicons-bring-forward" aria-hidden="true"></span><span class="insert-col-text">背景颜色</label><input type="color" ng-model="bgcolor" id="panel-bgcolor-picker" ng-change="bgColorButtonClick(bgcolor);"/></span></li>
-      <li ng-click="bgImageButtonClick();" ><span class="glyphicons glyphicons-picture" aria-hidden="true"></span><span class="insert-col-text">背景图片</span></li>
-      <li ng-click="bgMusicButtonClick();" ><span class="glyphicons glyphicons-music" aria-hidden="true"></span><span class="insert-col-text">背景音频</span></li>
+      <li ><label for="in-fileupload"><span class="glyphicons glyphicons-picture" aria-hidden="true"></span><span class="insert-col-text">背景图片</span></label></li>
+      <li ><label for="in-fileupload"><span class="glyphicons glyphicons-music" aria-hidden="true"></span><span class="insert-col-text">背景音频</span></label></li>
     </ul>
   </div>
   <div class="section-wrapper" >
@@ -165,15 +165,14 @@
   </div><!-- .m-cont -->
   
   <div class="footer" rep-nodefault>
-    
   </div>
-  <!-- In production use:
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
-  -->
+  <div rep-uploader>
+  </div>
   <script src="bower_components/jquery/dist/jquery.js"></script>
+  <script src="js/uploader.js"></script>
+  <script src="js/app.js"></script>
   <script src="bower_components/jquery/dist/jquery-ui.js"></script>
   <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
-  <script src="js/app.js"></script>
   <script src="components/version/version.js"></script>
   <script src="components/version/version-directive.js"></script>
   <script src="components/version/interpolate-filter.js"></script>

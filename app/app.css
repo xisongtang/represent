@@ -327,7 +327,7 @@ section{
 .position{
 	position: absolute;
 	right: 20px;
-	top: 20px;
+	bottom: 20px;
 	font-family: "Microsoft Yahei";
 	font-size: 22px;
 }
