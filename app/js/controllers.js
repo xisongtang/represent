@@ -181,7 +181,6 @@ controllers.controller('insertController', ['$scope', '$rootScope', '$timeout', 
 		$scope.$digest();
 	});
 	$scope.bgColorButtonClick = function(color){
-		$scope.inserting = null;
 		$rootScope.$broadcast('insertBackgroundColor', color);
 	};
 }]);

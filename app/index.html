@@ -11,6 +11,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 <!--  <link rel="stylesheet" href="bower_components">-->
   <link rel="stylesheet" href="bower_components/bootstrap/dist/css/glyphicons.css">
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/glyphicons-filetypes.css">
   <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
   <link rel="stylesheet" href="app.css">
   <script src="bower_components/angular/angular.min.js"></script>
@@ -134,12 +135,16 @@
         <div>x : <span ng-bind="x + 1"></span></div>
         <div>y : <span ng-bind="y + 1"></span></div>
       </div>
-      <div id="save-button" ng-click="onSaveButtonClick();" rep-nodefault title="保存">
-        <span class="glyphicons glyphicons-floppy-save"></span>
-      </div>
       <div id="preview-button" ng-click="onPreviewButtonClick();" rep-nodefault title="预览">
         <span class="glyphicons glyphicons-show-big-thumbnails"></span>
       </div>
+      <div id="save-button" ng-click="onSaveButtonClick();" rep-nodefault title="保存">
+        <span class="glyphicons glyphicons-floppy-save"></span>
+      </div>
+      <div id="pdf-button" ng-click="onPDFButtonClick();" rep-nodefault title="保存为PDF">
+        <span class="filetypes filetypes-pdf"></span>
+      </div>
+      
       <div class="new-frame-button" id="left-frame-button" ng-class="{disabled:(x === 0)}" ng-click="leftButton()" rep-nodefault>
         <span class="glyphicons glyphicons-left-arrow"></span>
       </div>

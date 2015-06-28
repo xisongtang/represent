@@ -73,6 +73,7 @@ controllers.controller("wrapperController", ['$rootScope', '$templateRequest','$
 	
 	$scope.$on("insertBackgroundMusic", function(e, music){
 		$scope.audio = music;
+		$scope.$digest();
 	});
 	//broadcast that the panel has changed
 	var changeAnimation = function(x, y){
@@ -106,11 +107,15 @@ controllers.controller("wrapperController", ['$rootScope', '$templateRequest','$
 			opacity:0.5
 		}, "fast", function(){
 			$scope.panels[ox][$scope.y].css("display", "none");
+			$scope.panels[ox][$scope.y].css("left", "");
+			$scope.panels[ox][$scope.y].css("top", "");
+			$scope.panels[ox][$scope.y].css("opacity", "");
 			if (!$scope.panels[nx]){
 				$scope.panels[nx] = [];
 				console.log("compile");
 				$scope.panels[nx][0] = $($compile($templateCache.get('section-template'))($scope));
 				$scope.panels[nx][0].attr("style", $scope.panels[ox][$scope.y].attr("style"));
+				$scope.panels[nx][0].attr("data-background-audio", $scope.panels[ox][$scope.y].attr("data-background-audio"));
 				$(".rel-wrapper").append($scope.panels[nx][0]);
 			}
 			$scope.panels[nx][0].css("left", startLeft);
@@ -158,9 +163,13 @@ controllers.controller("wrapperController", ['$rootScope', '$templateRequest','$
 			opacity:0
 		}, "fast", function(){
 			$scope.panels[$scope.x][oy].css("display", "none");
+			$scope.panels[$scope.x][oy].css("left", "");
+			$scope.panels[$scope.x][oy].css("top", "");
+			$scope.panels[$scope.x][oy].css("opacity", "");
 			if (!$scope.panels[$scope.x][ny]){
 				$scope.panels[$scope.x][ny] = $($compile($templateCache.get('section-template'))($scope));
 				$scope.panels[$scope.x][ny].attr("style", $scope.panels[$scope.x][oy].attr("style"));
+				$scope.panels[$scope.x][ny].attr("data-background-audio", $scope.panels[$scope.x][oy].attr("data-background-audio"));
 				$(".rel-wrapper").append($scope.panels[$scope.x][ny]);
 			}
 			$scope.panels[$scope.x][ny].css("top", startTop);
