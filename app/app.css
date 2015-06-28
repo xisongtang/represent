@@ -318,6 +318,14 @@ section{
 	z-index: 10000;
 }
 
+.position{
+	position: absolute;
+	top: 20px;
+	left: 20px;
+	font-family: "Microsoft Yahei";
+	font-size: 22px;
+}
+
 .editablediv{ 
 	position:absolute;
 	border: 1px solid #eee;

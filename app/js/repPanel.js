@@ -65,8 +65,8 @@ directives.directive('section', ['$compile','$rootScope', function($compile, sco
 			
 		},
 		link:function($scope, elem, attrs){
-			$scope.x = $scope.$parent.x;
-			$scope.y = $scope.$parent.y;
+			$scope.lx = $scope.$parent.x;
+			$scope.ly = $scope.$parent.y;
 			var dragging = false, resizing = false, dragbegX, dragbegY, selected, element, range = 6;
 			scope.draggable = false;
 			scope.resizable = false;
@@ -213,40 +213,40 @@ directives.directive('section', ['$compile','$rootScope', function($compile, sco
 			
 			scope.insertingText = false;
 			scope.$on("insertText", function(){
-				if ($scope.x == $scope.$parent.x && $scope.y == $scope.$parent.y)
+				if ($scope.lx == $scope.$parent.x && $scope.ly == $scope.$parent.y)
 					scope.insertingText = true;
 			});
 			scope.$on("insertImage", function(e, image){
 				console.log("insertImage");
-				if ($scope.x == $scope.$parent.x && $scope.y == $scope.$parent.y)
+				if ($scope.lx == $scope.$parent.x && $scope.ly == $scope.$parent.y)
 					$(elem).append($compile("<img rep-img src='" + image + "'/>")(scope));
 			});
 			scope.$on("insertVideo", function(e, video){
 				console.log("insertVideo");
-				if ($scope.x == $scope.$parent.x && $scope.y == $scope.$parent.y)
+				if ($scope.lx == $scope.$parent.x && $scope.ly == $scope.$parent.y)
 					$(elem).append($compile("<video rep-video src='" + video + "' controls></video>")(scope));
 			});
 			
 			scope.$on("insertBackgroundMusic", function(e, music){
 				console.log("insertBackgroundMusic");
-				if ($scope.x == $scope.$parent.x && $scope.y == $scope.$parent.y){
+				if ($scope.lx == $scope.$parent.x && $scope.ly == $scope.$parent.y){
 					$(elem).find("audio").remove();
 					$(elem).append("<audio autoplay src='" + music + "' controls style='display:none'></audio>");
 				}
 			});
 			scope.$on("insertBackgroundColor", function(e, color){
 				console.log("insertBackgroundColor");
-				if ($scope.x == $scope.$parent.x && $scope.y == $scope.$parent.y){
+				if ($scope.lx == $scope.$parent.x && $scope.ly == $scope.$parent.y){
 					$(elem).css("background-color", color);	
 				}
 			});
 			scope.$on("insertBackgroundImage", function(e, image){
 				console.log("insertBackgroundImage");
-				if ($scope.x == $scope.$parent.x && $scope.y == $scope.$parent.y)
+				if ($scope.lx == $scope.$parent.x && $scope.ly == $scope.$parent.y)
 					$(elem).css("background", "url(" + image + ") 0 0 /100% 100% no-repeat");
 			});
 			scope.$on("animStyleChanged", function(e, name, value){
-				if ($scope.x == $scope.$parent.x && $scope.y == $scope.$parent.y){
+				if ($scope.lx == $scope.$parent.x && $scope.ly == $scope.$parent.y){
 					if (name === "singleAnimateType"){
 						$(elem).attr("data-transition", value);
 						scope.$broadcast("animationStyleChanged", name, value);

@@ -88,7 +88,7 @@
       </div><!-- .tool-row -->
       <div class="tool-row">
         <label class="tool-row-head">层级:</label>
-        <span class="layer-num">{{zindex.current}}</span>
+        <span class="layer-num" ng-bind="zindex.current"></span>
         <div class="combine"><div><span class="glyphicons glyphicons-chevron-up" ng-click
           ="zindex.target=+zindex.current+1;changeBlockStyle(zindex);"></span></div><div><span class="glyphicons glyphicons-chevron-down" 
           ng-click="zindex.target=+zindex.current-1;changeBlockStyle(zindex);"></span></div></div>
@@ -128,6 +128,10 @@
   </div>
   <div class="section-wrapper" >
     <div class="rel-wrapper" ng-controller="wrapperController" >
+      <div class="position">
+        <div>x : <span ng-bind="x + 1"></span></div>
+        <div>y : <span ng-bind="y + 1"></span></div>
+      </div>
       <div id="save-button" ng-click="onSaveButtonClick();">
         <span class="glyphicons glyphicons-floppy-save"></span>
       </div>
