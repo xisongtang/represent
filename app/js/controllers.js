@@ -164,7 +164,9 @@ controllers.controller('toolController', ['$scope', '$rootScope', function($scop
 	$scope.changeParaStyle = function(a){
 		$rootScope.$broadcast("paraStyleChanged", a.css, a.target);
 	};
-	
+	$scope.changeFontSize = function(isLarger){
+		$rootScope.$broadcast("changeFontSize", isLarger);
+	};
 	$scope.clearStyle = function(){
 		$rootScope.$broadcast("clearStyle");
 	};
